@@ -1,4 +1,4 @@
 {
-  "type": "static",
-  "public": true
+  "public": true,
+  "name": "changi-air-traffic-weather"
 }
