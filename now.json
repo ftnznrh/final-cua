@@ -2,10 +2,9 @@
   "version": 2,
   "name": "changi-air-traffic-weather",
   "builds": [
-    {
-      "src": "package.json",
-      "use": "@now/static-build",
-      "config": { "distDir": "public" }
-    }
-  ]
+      { "src": "./_book/**", "use": "@now/static" }
+    ],
+    "routes": [
+      { "src": "/(.*)", "dest": "_book/$1" }
+    ]
 }
