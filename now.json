@@ -1,6 +1,7 @@
 {
   "version": 2,
   "name": "changi-air-traffic-weather",
+  "alias":"changi-air-traffic-weather",
   "builds": [
       { "src": "./_book/**", "use": "@now/static" }
     ],
