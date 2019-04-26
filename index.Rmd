@@ -1,5 +1,5 @@
 --- 
-title: "An Analysis of Weather influence on Air Traffic Flow in Changi"
+title: "An Analysis of Weather Influence on Air Traffic Flow in Changi"
 author: "Fatin Zunairah"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
