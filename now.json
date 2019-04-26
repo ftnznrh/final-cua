@@ -1,4 +1,5 @@
 {
   "public": true,
-  "name": "changi-air-traffic-weather"
+  "name": "changi-air-traffic-weather",
+  "builds": [{ "src": "*.md", "use": "@now/md" }]
 }
