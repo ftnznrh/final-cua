@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Chapter 4 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flow in Changi</title>
-  <meta name="description" content="Chapter 4 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flow in Changi">
+  <title>Chapter 5 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flow in Changi</title>
+  <meta name="description" content="Chapter 5 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flow in Changi">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Chapter 4 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flow in Changi" />
+  <meta property="og:title" content="Chapter 5 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flow in Changi" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flow in Changi" />
+  <meta name="twitter:title" content="Chapter 5 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flow in Changi" />
   
   
   
@@ -32,7 +32,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="multi-dimensiional-scaling.html">
+<link rel="prev" href="multidimensional-scaling.html">
 <link rel="next" href="findings.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,6 +50,43 @@
 
 
 
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -64,17 +101,19 @@
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">CUA Final Project</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Problem Statement</a></li>
+<li class="chapter" data-level="" data-path="problem-question.html"><a href="problem-question.html"><i class="fa fa-check"></i>Problem Question</a></li>
+<li class="chapter" data-level="" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i>Data</a></li>
 <li class="chapter" data-level="1" data-path="methods-of-analysis.html"><a href="methods-of-analysis.html"><i class="fa fa-check"></i><b>1</b> Methods of Analysis</a></li>
 <li class="chapter" data-level="2" data-path="data-tidying.html"><a href="data-tidying.html"><i class="fa fa-check"></i><b>2</b> Data Tidying</a></li>
-<li class="chapter" data-level="3" data-path="multi-dimensiional-scaling.html"><a href="multi-dimensiional-scaling.html"><i class="fa fa-check"></i><b>3</b> Multi-Dimensiional Scaling</a></li>
-<li class="chapter" data-level="4" data-path="cluster-analysis.html"><a href="cluster-analysis.html"><i class="fa fa-check"></i><b>4</b> Cluster Analysis</a></li>
-<li class="chapter" data-level="5" data-path="findings.html"><a href="findings.html"><i class="fa fa-check"></i><b>5</b> Findings</a></li>
-<li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="3" data-path="multiple-regression.html"><a href="multiple-regression.html"><i class="fa fa-check"></i><b>3</b> Multiple Regression</a></li>
+<li class="chapter" data-level="4" data-path="multidimensional-scaling.html"><a href="multidimensional-scaling.html"><i class="fa fa-check"></i><b>4</b> Multidimensional Scaling</a></li>
+<li class="chapter" data-level="5" data-path="cluster-analysis.html"><a href="cluster-analysis.html"><i class="fa fa-check"></i><b>5</b> Cluster Analysis</a></li>
+<li class="chapter" data-level="6" data-path="findings.html"><a href="findings.html"><i class="fa fa-check"></i><b>6</b> Findings</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -96,7 +135,20 @@
 
             <section class="normal" id="section-">
 <div id="cluster-analysis" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> Cluster Analysis</h1>
+<h1><span class="header-section-number">Chapter 5</span> Cluster Analysis</h1>
+<p>1.A visual check of the MDS plot is not sufficient - perhaps a K-clustering analysis could provide more insight to the clustering pattern of the variables</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cluster_data&lt;-rainy_days <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(date,daily_rainfall_mm, temp_mean_daily, daily_tfc, mean_hourly_tfc)
+
+cluster_data&lt;-cluster_data <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">column_to_rownames</span>(<span class="dt">var =</span> <span class="st">&quot;date&quot;</span>)</code></pre></div>
+<p>2.We choose a cluster of 6 as the optimal number of clusters in the dataset.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(cluster_data, kmeans, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kmeans_clusters &lt;-<span class="st"> </span><span class="kw">kmeans</span>(cluster_data, <span class="dt">centers =</span> <span class="dv">6</span>, <span class="dt">nstart =</span> <span class="dv">50</span>)
+
+<span class="kw">fviz_cluster</span>(kmeans_clusters, <span class="dt">data =</span> cluster_data)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 
 </div>
             </section>
@@ -104,7 +156,7 @@
           </div>
         </div>
       </div>
-<a href="multi-dimensiional-scaling.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="multidimensional-scaling.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="findings.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
@@ -135,7 +187,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-cluster-analysis.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/05-cluster-analysis.Rmd",
 "text": "Edit"
 },
 "history": {

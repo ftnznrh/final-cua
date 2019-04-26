@@ -4,14 +4,14 @@ Periods with different air traffic volumes will be identified, and an initial ca
 
 We will be using two different methods of computational analysis to answer the research question, combining two datasets of total air traffic flow and weather information:
 
-1.	Regression and Correlation/Hypothesis Testing
+##Regression and Correlation/Hypothesis Testing
 Using these methods of analysis, we can test the relationship between weather and traffic flows. An initial testing of how weather affects traffic flows into Changi via a visualisation of the regression model could provide us with information on which weather variables best fit 
 
-2.	Multidimensional Scaling (MDS) & Principal Component Analysis
+##Multidimensional Scaling (MDS) & Principal Component Analysis
 In non-metric MDS, different variables that consists weather – rainfall, temperature, visibility and wind speeds, could be tested against total air traffic flow. The smaller the distances between the variables and high/low traffic flow outputs, the higher the chances that the specific component of weather heavily influences the occurrence of an air traffic congestion. 
 In addition, a PCA will be performed on the dataset to determine which variables affect the traffic flow in Changi the most. 
 
-3. Cluster Analysis 
+##Cluster Analysis 
 
 
 
