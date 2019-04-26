@@ -1,0 +1,40 @@
+# Multidimensional Scaling
+
+```{r message = FALSE}
+library(tidyverse)
+library(readxl)
+library(lubridate)
+library(ggplot2)
+library(factoextra)
+library(broom)
+```
+
+
+
+Setting up the distance matrix of weather + air traffic flow during rainy days
+```{r}
+weather_matrix <- rainy_days %>% 
+  select(daily_rainfall_mm, temp_mean_daily, daily_tfc, mean_hourly_tfc) %>%  #selection of 3 dimensions initially to check for sanity
+  as.matrix()
+```
+
+
+```{r}
+weather_distance<- distances::distances(weather_matrix, normalize = "studentize") %>% 
+  as.matrix()
+
+mds_weather <- cmdscale(weather_distance) %>% 
+  as_tibble()
+
+mds_weather <- rainy_date %>% 
+  select(date) %>% 
+  bind_cols(., mds_weather)
+```
+
+2.Results from MDS of daily rainfall, traffic flow and daily mean temperature on rainy days in Changi Airport
+```{r}
+ggplot(mds_weather, aes(x = V1, y = V2)) + geom_text(aes(label= date))
+```
+
+(Analysis of data will be done later)
+However, preliminary results indicate that the distances between the variables dont vary too much and clusters around the (0,0) axis. The outliers are of interest and subsequent data analyses will seek to explore why there is a significant distance between them and the main data clustering.

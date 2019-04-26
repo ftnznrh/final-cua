@@ -1,0 +1,36 @@
+# Cluster Analysis
+
+
+```{r message = FALSE}
+library(tidyverse)
+library(readxl)
+library(lubridate)
+library(ggplot2)
+library(factoextra)
+
+```
+
+
+
+1.A visual check of the MDS plot is not sufficient - perhaps a K-clustering analysis could provide more insight to the clustering pattern of the variables
+
+```{r}
+
+cluster_data<-rainy_days %>% 
+  select(date,daily_rainfall_mm, temp_mean_daily, daily_tfc, mean_hourly_tfc)
+
+cluster_data<-cluster_data %>% 
+  column_to_rownames(var = "date")
+```
+
+2.We choose a cluster of 6 as the optimal number of clusters in the dataset.
+```{r}
+fviz_nbclust(cluster_data, kmeans, method = "wss")
+```
+
+
+```{r}
+kmeans_clusters <- kmeans(cluster_data, centers = 6, nstart = 50)
+
+fviz_cluster(kmeans_clusters, data = cluster_data)
+```

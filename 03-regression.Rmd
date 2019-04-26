@@ -1,0 +1,36 @@
+# Multiple Regression
+
+```{r message = FALSE}
+library(tidyverse)
+library(readxl)
+library(lubridate)
+library(ggplot2)
+library(factoextra)
+```
+
+
+
+```{r}
+rain<-cluster_data
+ols_rain <- lm(daily_tfc ~ daily_rainfall_mm +`30min_rainfall_mm` + max_wind_speed + `120min_rainfall_mm` + wind_speed + temp_mean_daily + mean_hourly_tfc, daily_stats_weather)
+
+glance(ols_rain)
+
+tidy(ols_rain)
+```
+
+
+
+
+```{r}
+#Traffic per hour >50 (in anticipation of further regressive analysis that could be done --> checking which hours have peak traffic movements)
+tfc_gt_50<-changi_stats %>% 
+  mutate(hourly_tfc = arrival_tfc + departure_tfc) %>% 
+  filter(hourly_tfc >59) %>% 
+  mutate(hour = hour(local_time))
+
+tfc_gt_50 %>% 
+  ggplot(aes(x = hour, y = hourly_tfc)) + geom_col(aes(fill = date))
+
+summary(tfc_gt_50)
+```
