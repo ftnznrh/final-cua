@@ -1,1 +1,54 @@
 # Data Tidying
+
+
+```{r message = FALSE}
+library(tidyverse)
+library(readxl)
+library(lubridate)
+library(ggplot2)
+library(factoextra)
+
+```
+
+
+
+```{r}
+#Weather data - July 2018 to February 2019 (daily summaries)
+changi_daily_weather <- read_excel(here::here("Data/daily_weather_changi.xlsx")) %>% 
+  mutate(date=date(date))
+
+# Changi traffic data - Julu 2018 to February 2019 (hourly data)
+changi_stats <- read_excel(here::here("Data/changi_stats.xlsx")) %>% 
+  mutate(date = date(local_time))
+
+
+#summary of daily sum of, and total departures and arrivals per day 
+
+tfc_flow<-changi_stats %>% 
+  group_by(date) %>% 
+  summarise(arrival_tfc = sum(arrival_tfc),
+            departure_tfc = sum(departure_tfc)) %>% 
+  mutate(daily_tfc = departure_tfc+ arrival_tfc) %>% 
+  mutate(mean_hourly_tfc = daily_tfc/24)
+daily_stats_weather<-left_join(tfc_flow, changi_daily_weather)
+
+```
+
+
+
+```{r}
+changi_hourly_weather<-read_excel(here::here("Data/weather_june18_feb19.xlsx")) 
+
+changi_hourly_weather <-changi_hourly_weather %>% 
+  mutate(date = date(local_time))
+
+combined_data<- left_join(changi_hourly_weather, changi_stats) %>% 
+  mutate(date=date(local_time))
+
+rainy_days <- daily_stats_weather %>% 
+  filter(daily_rainfall_mm>0) 
+
+rainy_date<-rainy_days %>% 
+  select(date)
+```
+
