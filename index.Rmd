@@ -1,5 +1,5 @@
 --- 
-title: "An analysis of weather influence on air traffic flows in Changi"
+title: "An Analysis of Weather influence on Air Traffic Flow in Changi"
 author: "Fatin Zunairah"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -8,16 +8,8 @@ documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-description: "Final Project Submission for Computational Urban Analysis"
 ---
 
-Problem Statement
+#Problem Statement{-}
 
 Traffic in Changi are 
-
-```{r include=FALSE}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
-```
