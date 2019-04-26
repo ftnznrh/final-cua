@@ -32,7 +32,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="index.html">
+<link rel="prev" href="data.html">
 <link rel="next" href="data-tidying.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -64,17 +64,19 @@
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">CUA Final Project</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Problem Statement</a></li>
+<li class="chapter" data-level="" data-path="problem-question.html"><a href="problem-question.html"><i class="fa fa-check"></i>Problem Question</a></li>
+<li class="chapter" data-level="" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i>Data</a></li>
 <li class="chapter" data-level="1" data-path="methods-of-analysis.html"><a href="methods-of-analysis.html"><i class="fa fa-check"></i><b>1</b> Methods of Analysis</a></li>
 <li class="chapter" data-level="2" data-path="data-tidying.html"><a href="data-tidying.html"><i class="fa fa-check"></i><b>2</b> Data Tidying</a></li>
-<li class="chapter" data-level="3" data-path="multi-dimensiional-scaling.html"><a href="multi-dimensiional-scaling.html"><i class="fa fa-check"></i><b>3</b> Multi-Dimensiional Scaling</a></li>
-<li class="chapter" data-level="4" data-path="cluster-analysis.html"><a href="cluster-analysis.html"><i class="fa fa-check"></i><b>4</b> Cluster Analysis</a></li>
-<li class="chapter" data-level="5" data-path="findings.html"><a href="findings.html"><i class="fa fa-check"></i><b>5</b> Findings</a></li>
-<li class="chapter" data-level="6" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>6</b> Conclusion</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="3" data-path="multiple-regression.html"><a href="multiple-regression.html"><i class="fa fa-check"></i><b>3</b> Multiple Regression</a></li>
+<li class="chapter" data-level="4" data-path="multidimensional-scaling.html"><a href="multidimensional-scaling.html"><i class="fa fa-check"></i><b>4</b> Multidimensional Scaling</a></li>
+<li class="chapter" data-level="5" data-path="cluster-analysis.html"><a href="cluster-analysis.html"><i class="fa fa-check"></i><b>5</b> Cluster Analysis</a></li>
+<li class="chapter" data-level="6" data-path="findings.html"><a href="findings.html"><i class="fa fa-check"></i><b>6</b> Findings</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -97,6 +99,13 @@
             <section class="normal" id="section-">
 <div id="methods-of-analysis" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Methods of Analysis</h1>
+<p>Periods with different air traffic volumes will be identified, and an initial capacity threshold will categorise periods of high, medium and low traffic volumes. We will assume that the daily capacity does not change, and there are no significant variations of traffic volumes throughout the different days of the week.</p>
+<p>We will be using two different methods of computational analysis to answer the research question, combining two datasets of total air traffic flow and weather information:</p>
+<ol style="list-style-type: decimal">
+<li><p>Regression and Correlation/Hypothesis Testing Using these methods of analysis, we can test the relationship between weather and traffic flows. An initial testing of how weather affects traffic flows into Changi via a visualisation of the regression model could provide us with information on which weather variables best fit</p></li>
+<li><p>Multidimensional Scaling (MDS) &amp; Principal Component Analysis In non-metric MDS, different variables that consists weather – rainfall, temperature, visibility and wind speeds, could be tested against total air traffic flow. The smaller the distances between the variables and high/low traffic flow outputs, the higher the chances that the specific component of weather heavily influences the occurrence of an air traffic congestion. In addition, a PCA will be performed on the dataset to determine which variables affect the traffic flow in Changi the most.</p></li>
+<li><p>Cluster Analysis</p></li>
+</ol>
 
 </div>
             </section>
@@ -104,7 +113,7 @@
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="data-tidying.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
