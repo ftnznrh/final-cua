@@ -10,83 +10,169 @@ library(factoextra)
 library(broom)
 ```
 
-```{r include=FALSE}
+
+```{r}
 #Weather data - July 2018 to February 2019 (daily summaries)
 changi_daily_weather <- read_excel(here::here("Data/daily_weather_changi.xlsx")) %>% 
   mutate(date=date(date))
 
-# Changi traffic data - Julu 2018 to February 2019 (hourly data)
-changi_stats <- read_excel(here::here("Data/changi_stats.xlsx")) %>% 
-  mutate(date = date(local_time))
+# Changi traffic data - July 2018 to February 2019 (hourly data)
+changi_stats <- read_excel(here::here("Data/changi_stats.xlsx"))
 
-
-#summary of daily sum of, and total departures and arrivals per day 
-
-tfc_flow<-changi_stats %>% 
-  group_by(date) %>% 
-  summarise(arrival_tfc = sum(arrival_tfc),
-            departure_tfc = sum(departure_tfc)) %>% 
-  mutate(daily_tfc = departure_tfc+ arrival_tfc) %>% 
-  mutate(mean_hourly_tfc = daily_tfc/24)
-daily_stats_weather<-left_join(tfc_flow, changi_daily_weather)
-
-```
-
-
-
-```{r include=FALSE}
+#Changi Weather and Traffic data - July 2018 to February 2019 (hourly data)
 changi_hourly_weather<-read_excel(here::here("Data/weather_june18_feb19.xlsx")) 
 
+
 changi_hourly_weather <-changi_hourly_weather %>% 
-  mutate(date = date(local_time))
-
-combined_data<- left_join(changi_hourly_weather, changi_stats) %>% 
-  mutate(date=date(local_time))
-
-rainy_days <- daily_stats_weather %>% 
-  filter(daily_rainfall_mm>0) 
-
-rainy_date<-rainy_days %>% 
-  select(date)
+  mutate(total_tfc = departure_tfc+arrival_tfc)
 ```
 
 
-
-```{r include=FALSE}
-
-#combining daily traffic data and weather summaries
-daily_stats_weather<-left_join(tfc_flow, changi_daily_weather)
-
-
-#To check if our hypothesis that weather affects air traffic flows is true, we look at days when there is some rain in Changi
-rainy_days <- daily_stats_weather %>% 
-  filter(daily_rainfall_mm>0) # filtering out dates when changi experiences some rainfall
-#Out of 243 days, 113 days had some rain in Changi - that's almost half
-
-rainy_date<-rainy_days %>% 
-  select(date) #filtering out the date component to join after performing MDS.
-```
-
-
-1.A visual check of the MDS plot is not sufficient - perhaps a K-clustering analysis could provide more insight to the clustering pattern of the variables
 
 ```{r}
 
-cluster_data<-rainy_days %>% 
-  select(date,daily_rainfall_mm, temp_mean_daily, daily_tfc, mean_hourly_tfc)
+hourly_stats_weather <-changi_hourly_weather %>% 
+  mutate(hour = hour(local_time)) %>% 
+  mutate(date = date(local_time))
 
-cluster_data<-cluster_data %>% 
+```
+
+
+```{r}
+
+changi_stats <- read_excel(here::here("Data/changi_stats.xlsx")) %>% 
+  mutate(daily_tfc = departure_tfc+arrival_tfc) %>% 
+  mutate(date = date(local_time))
+
+
+daily_tfc_flow<-changi_stats %>% 
+  group_by(date) %>% 
+  summarise(daily_tfc = sum(daily_tfc))
+
+daily_stats_weather <- left_join(changi_daily_weather, daily_tfc_flow)
+```
+
+
+```{r include=F}
+
+rain_hours <-hourly_stats_weather %>% 
+  filter(weather_main == "Rain"| weather_main == "Thunderstorm")
+
+
+#daily_stats_weather <-daily_stats_weather %>% 
+#  mutate(weather = if_else(daily_rainfall_mm == 0.0, "NO RAIN", "RAIN"))
+
+
+```
+
+
+
+```{r include = FALSE}
+hourly_stats_weather<-hourly_stats_weather %>% 
+  mutate(temp = temp/10) %>% 
+  mutate(temp_min = temp_min/10) %>% 
+  mutate(temp_max = temp_max/10)
+
+daily_stats_weather<- daily_stats_weather %>%
+  mutate(daily_wind_speed = wind_speed) %>% 
+  mutate(daily_max_wind_speed = max_wind_speed) %>%
+  select(-wind_speed, - max_wind_speed)
+```
+
+
+
+
+```{r}
+data<- left_join(hourly_stats_weather, daily_stats_weather, by = "date")
+```
+
+
+
+```{r}
+hourly_cluster_data<-hourly_stats_weather %>% 
+  select(-date, -hour, -weather_id, -weather_description, -weather_main) %>% 
+  sample_n(100)
+
+hourly_cluster_data<-hourly_cluster_data %>% 
+  column_to_rownames(var = "local_time")
+```
+
+
+
+```{r}
+fa_daily_stats <- daily_stats_weather %>% 
+  sample_n(100) %>% 
+  column_to_rownames(var = "date") %>% 
+  select(daily_rainfall_mm, daily_tfc, daily_wind_speed, `30min_rainfall_mm`, `60min_rainfall_mm`, temp_mean_daily, daily_max_wind_speed) %>% 
+  principal(nfactors = 4, rotate = "varimax")
+
+fa_daily_stats
+```
+
+
+
+```{r}
+fa_daily_stats[['scores']] %>% 
+  unclass() %>% 
+  as_tibble(rownames = "date") %>%
+  ggplot(aes(x = RC1, y = RC2)) + geom_text(aes(label = date))
+```
+
+
+
+```{r include=FALSE}
+fa_hourly_stats <- hourly_stats_weather %>% 
+  sample_n(100) %>% 
+  column_to_rownames(var = "local_time") %>% 
+  select(total_tfc,rainfall_mm, humidity, pressure, wind_speed, temp, wind_deg, temp_max) %>% 
+  principal(nfactors = 4, rotate = "varimax")
+
+fa_hourly_stats
+```
+
+
+```{r include=FALSE}
+fa_hourly_cluster<-fa_hourly_stats[['scores']] %>% 
+  unclass() %>% 
+  as_tibble(rownames = "local_time")
+
+
+fa_hourly_cluster<-fa_hourly_cluster %>% 
+  column_to_rownames(var = "local_time")
+```
+
+
+```{r}
+fviz_nbclust(fa_hourly_cluster, kmeans, method = "wss")
+```
+
+
+```{r}
+hourly_kmeans_clusters <- kmeans(fa_hourly_cluster, centers = 7, nstart = 50)
+
+fviz_cluster(hourly_kmeans_clusters, data = fa_hourly_cluster)
+```
+
+
+```{r}
+fa_daily_cluster<-fa_daily_stats[['scores']] %>% 
+  unclass() %>% 
+  as_tibble(rownames = "date")
+
+
+fa_daily_cluster<-fa_daily_cluster %>% 
   column_to_rownames(var = "date")
 ```
 
-2.We choose a cluster of 6 as the optimal number of clusters in the dataset.
+
 ```{r}
-fviz_nbclust(cluster_data, kmeans, method = "wss")
+fviz_nbclust(fa_daily_cluster, kmeans, method = "wss")
+```
+
+```{r}
+daily_kmeans_clusters <- kmeans(fa_daily_cluster, centers = 5, nstart = 50)
+
+fviz_cluster(daily_kmeans_clusters, data = fa_daily_cluster)
 ```
 
 
-```{r}
-kmeans_clusters <- kmeans(cluster_data, centers = 6, nstart = 50)
-
-fviz_cluster(kmeans_clusters, data = cluster_data)
-```

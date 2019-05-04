@@ -1,5 +1,5 @@
 --- 
-title: "An Analysis of Weather Influence on Air Traffic Flow in Changi"
+title: "An Analysis of Weather Influence on Air Traffic Flows in Changi"
 author: "Fatin Zunairah"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -17,13 +17,14 @@ Disruptions to the air traffic flows can lead to traffic congestion and a knock-
 
 By analysing Singapore’s weather and air traffic flows, we can theorise the extent of effect weather has on air traffic congestion and evaluate how successful certain measures to mitigate air traffic congestion from effects of adverse weather have had on Changi operations. 
 
-#Problem Question {-}
+##Problem Question {-}
 
 This project will attempt to answer the following research question:
 
 *To what extent does weather affect air traffic flows in Changi?*
 
 
-#Data {-}
+##Data {-}
 
-Two different datasets will be used – daily reports of air traffic flows in Changi from the months of July to December broken down into hourly movements, as well as historical, hourly, daily weather reports from the Meteorological Service Singapore (MSS). 
+Two different datasets will be used – daily reports of air traffic flows in Changi from the months of July 2018 to February 2019 (from CAAS Air Navigation Service Policy & Planning Division) broken down into hourly movements with daily weather reports from the Meteorological Service Singapore (MSS). An hourly breakdown of weather and traffic flows will also be used. The hourly weather record from July 2018 to February 2019 was obtained from (), a website that kept historical weather records. 
+
