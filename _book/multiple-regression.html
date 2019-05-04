@@ -25,7 +25,7 @@
 <meta name="author" content="Fatin Zunairah">
 
 
-<meta name="date" content="2019-05-04">
+<meta name="date" content="2019-05-05">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -111,7 +111,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="2" data-path="data-tidying.html"><a href="data-tidying.html"><i class="fa fa-check"></i><b>2</b> Data Tidying</a></li>
 <li class="chapter" data-level="3" data-path="multiple-regression.html"><a href="multiple-regression.html"><i class="fa fa-check"></i><b>3</b> Multiple Regression</a><ul>
-<li class="chapter" data-level="3.1" data-path="multiple-regression.html"><a href="multiple-regression.html#analysis"><i class="fa fa-check"></i><b>3.1</b> Analysis</a></li>
+<li class="chapter" data-level="3.1" data-path="multiple-regression.html"><a href="multiple-regression.html#data-modelling"><i class="fa fa-check"></i><b>3.1</b> Data Modelling</a><ul>
+<li class="chapter" data-level="" data-path="multiple-regression.html"><a href="multiple-regression.html#daily-traffic-weather-data"><i class="fa fa-check"></i>Daily Traffic &amp; Weather Data</a></li>
+<li class="chapter" data-level="" data-path="multiple-regression.html"><a href="multiple-regression.html#hourly-traffic-weather-data-total-traffic"><i class="fa fa-check"></i>Hourly Traffic &amp; Weather Data: Total Traffic</a></li>
+<li class="chapter" data-level="" data-path="multiple-regression.html"><a href="multiple-regression.html#hourly-traffic-weather-data-arrival-traffic"><i class="fa fa-check"></i>Hourly Traffic &amp; Weather Data: Arrival Traffic</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="multiple-regression.html"><a href="multiple-regression.html#data-results-analysis"><i class="fa fa-check"></i><b>3.2</b> Data Results &amp; Analysis</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="multidimensional-scaling.html"><a href="multidimensional-scaling.html"><i class="fa fa-check"></i><b>4</b> Multidimensional Scaling</a></li>
 <li class="chapter" data-level="5" data-path="cluster-analysis-1.html"><a href="cluster-analysis-1.html"><i class="fa fa-check"></i><b>5</b> Cluster Analysis</a></li>
@@ -139,8 +144,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="multiple-regression" class="section level1">
 <h1><span class="header-section-number">Chapter 3</span> Multiple Regression</h1>
+<div id="data-modelling" class="section level2">
+<h2><span class="header-section-number">3.1</span> Data Modelling</h2>
 <p>We have two different datasets - a summary of the entire day’s traffic and weather conditions as well as the hourly version which similarly looks at each hour’s traffic and weather variables. The hourly data provides us with more details about the relationship between Changi weather and air traffic flows.</p>
 <p>In the following multiple regression models, we use wind speed, rainfall and temperature to determine which variables have the most impact on overall daily air traffic in Changi.</p>
+<div id="daily-traffic-weather-data" class="section level3 unnumbered">
+<h3>Daily Traffic &amp; Weather Data</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ols_daily_traffic_weather &lt;-<span class="st"> </span><span class="kw">lm</span>(daily_tfc <span class="op">~</span><span class="st"> </span>daily_rainfall_mm <span class="op">+</span><span class="st"> </span>daily_wind_speed <span class="op">+</span><span class="st"> </span>temp_mean_daily <span class="op">+</span><span class="st"> `</span><span class="dt">30min_rainfall_mm</span><span class="st">`</span>  <span class="op">+</span><span class="st"> `</span><span class="dt">60min_rainfall_mm</span><span class="st">`</span> <span class="op">+</span><span class="st"> `</span><span class="dt">120min_rainfall_mm</span><span class="st">`</span>, daily_stats_weather)
 
 <span class="kw">glance</span>(ols_daily_traffic_weather)</code></pre></div>
@@ -160,6 +169,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 5 `30min_rainfall_mm`      1.58      1.69     0.938  3.49e- 1
 ## 6 `60min_rainfall_mm`     -2.39      1.83    -1.30   1.94e- 1
 ## 7 `120min_rainfall_mm`    -0.289     0.969   -0.298  7.66e- 1</code></pre>
+</div>
+<div id="hourly-traffic-weather-data-total-traffic" class="section level3 unnumbered">
+<h3>Hourly Traffic &amp; Weather Data: Total Traffic</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ols_hourly_traffic_weather &lt;-<span class="st"> </span><span class="kw">lm</span>(total_tfc <span class="op">~</span>rainfall_mm <span class="op">+</span><span class="st"> </span>temp <span class="op">+</span><span class="st"> </span>humidity <span class="op">+</span><span class="st"> </span>wind_speed <span class="op">+</span>pressure, hourly_stats_weather)
 
 <span class="kw">glance</span>(ols_hourly_traffic_weather)</code></pre></div>
@@ -178,8 +190,36 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 4 humidity      -0.0645    0.0357     -1.81 7.11e- 2
 ## 5 wind_speed    -0.224     0.162      -1.39 1.66e- 1
 ## 6 pressure      -0.156     0.0953     -1.63 1.03e- 1</code></pre>
-<div id="analysis" class="section level2">
-<h2><span class="header-section-number">3.1</span> Analysis</h2>
+</div>
+<div id="hourly-traffic-weather-data-arrival-traffic" class="section level3 unnumbered">
+<h3>Hourly Traffic &amp; Weather Data: Arrival Traffic</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ols_hourly_arrival_traffic_weather &lt;-<span class="st"> </span><span class="kw">lm</span>(arrival_tfc <span class="op">~</span>rainfall_mm <span class="op">+</span><span class="st"> </span>temp <span class="op">+</span><span class="st"> </span>humidity <span class="op">+</span><span class="st"> </span>wind_speed <span class="op">+</span>pressure, hourly_stats_weather)
+
+<span class="kw">glance</span>(ols_hourly_arrival_traffic_weather)</code></pre></div>
+<pre><code>## # A tibble: 1 x 11
+##   r.squared adj.r.squared sigma statistic  p.value    df  logLik    AIC
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+## 1    0.0207        0.0198  8.82      24.6 1.34e-24     6 -20966. 41946.
+## # … with 3 more variables: BIC &lt;dbl&gt;, deviance &lt;dbl&gt;, df.residual &lt;int&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tidy</span>(ols_hourly_arrival_traffic_weather)</code></pre></div>
+<pre><code>## # A tibble: 6 x 5
+##   term         estimate std.error statistic  p.value
+##   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept) -35.6       71.3      -0.500  6.17e- 1
+## 2 rainfall_mm   2.40       0.270     8.88   8.86e-19
+## 3 temp          1.88       1.09      1.72   8.63e- 2
+## 4 humidity     -0.0438     0.0215   -2.04   4.17e- 2
+## 5 wind_speed   -0.0543     0.0973   -0.558  5.77e- 1
+## 6 pressure      0.00462    0.0574    0.0805 9.36e- 1</code></pre>
+</div>
+</div>
+<div id="data-results-analysis" class="section level2">
+<h2><span class="header-section-number">3.2</span> Data Results &amp; Analysis</h2>
+<p>From the multiple regression models demonstrated above, we do a statistical summary of its results. The r-squared value provides us information regarding the overall goodness-of-fit of the regression models. For the <em>daily</em> regression model, we obtain an r-squared value of 0.012 and an overall p-value of 0.8 while the <em>hourly</em> regression model has a better r-squared value of 0.021 and a p-value of &lt;0.05 - indicating the regression model has statistically significant results.</p>
+<p>The individual variables we tested with the daily traffic and weather data we obtain p-values &gt; 0.05, which indicates that they are statistically non-significant and does not affect the overall daily traffic numbers in Changi. These are, of course, to be expected since there are scheduled flights to Changi airport and the overall delays from weather should be limited to certain hours and not throughout the day. The daily capacity of Changi airport, therefore is not significantly reduced by weather effects. When there is adverse weather in Changi at certain hours, these traffic are brought over to the next hours - which compensates for these traffic delays.</p>
+<p>The hourly traffic and weather data regression model, however, provides us with more insights on its relationships with different variables tested. Out of all the variables tested, the hourly rainfall and humidity recorded by the Changi weather station was statistically significant with a p-value respectively of less than 0.05. This indicates to some extent the relationship between the two variables affecting the hourly traffic rate at Changi.</p>
+<p>From contextual knowledge, the fragility of adverse weather effects on traffic arriving to Changi are more significant as compared to departures (due to sensitivity of landing traffic to wind, visibility). We perform the same regression modelling with the arrival traffic as the dependent variable. We see that there is a statistically significant relationship between this independent variable with temperature, humidity and hourly recorded rainfall. However, the poor r-squared value of 0.021 still hints at some missing variables to compensate for the model’s goodness of fit.</p>
+<p>It would be interesting then to investigate if there are any latent variables missing to explain the relationship between Changi air traffic flow and weather.</p>
 
 </div>
 </div>

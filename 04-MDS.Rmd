@@ -74,18 +74,21 @@ hourly_stats_weather <-changi_hourly_weather %>%
 ```
 
 
-```{r}
+
+
+
+```{r include = FALSE}
 
 daily_stats_weather<- daily_stats_weather %>%
   mutate(daily_wind_speed = wind_speed) %>% 
   mutate(daily_max_wind_speed = max_wind_speed) %>%
   select(-wind_speed, - max_wind_speed)
   
-data <-left_join(hourly_stats_weather, daily_stats_weather, by = c("local_time"))
+data <-left_join(hourly_stats_weather, daily_stats_weather, by = c("date"))
 ```
 
 
-
+We perform MDS to reduce t
 
 ```{r}
 hourly_weather_mds<- hourly_stats_weather %>% 

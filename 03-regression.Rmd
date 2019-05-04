@@ -67,10 +67,13 @@ daily_stats_weather<- daily_stats_weather %>%
 data <-left_join(hourly_stats_weather, daily_stats_weather, by = "date")
 ```
 
+##Data Modelling
 
 We have two different datasets - a summary of the entire day's traffic and weather conditions as well as the hourly version which similarly looks at each hour's traffic and weather variables. The hourly data provides us with more details about the relationship between Changi weather and air traffic flows. 
 
-In the following multiple regression models, we use wind speed, rainfall and temperature to determine which variables have the most impact on overall daily air traffic in Changi. 
+In the following multiple regression models, we use wind speed, rainfall and temperature to determine which variables have the most impact on overall daily air traffic in Changi.
+
+###Daily Traffic & Weather Data {-}
 ```{r}
 ols_daily_traffic_weather <- lm(daily_tfc ~ daily_rainfall_mm + daily_wind_speed + temp_mean_daily + `30min_rainfall_mm`  + `60min_rainfall_mm` + `120min_rainfall_mm`, daily_stats_weather)
 
@@ -80,7 +83,7 @@ tidy(ols_daily_traffic_weather)
 ```
 
 
-
+###Hourly Traffic & Weather Data: Total Traffic {-}
 ```{r}
 ols_hourly_traffic_weather <- lm(total_tfc ~rainfall_mm + temp + humidity + wind_speed +pressure, hourly_stats_weather)
 
@@ -89,4 +92,29 @@ glance(ols_hourly_traffic_weather)
 tidy(ols_hourly_traffic_weather)
 ```
 
-##Analysis
+
+###Hourly Traffic & Weather Data: Arrival Traffic {-}
+```{r}
+ols_hourly_arrival_traffic_weather <- lm(arrival_tfc ~rainfall_mm + temp + humidity + wind_speed +pressure, hourly_stats_weather)
+
+glance(ols_hourly_arrival_traffic_weather)
+
+tidy(ols_hourly_arrival_traffic_weather)
+```
+
+
+
+##Data Results & Analysis
+
+From the multiple regression models demonstrated above, we do a statistical summary of its results. The r-squared value provides us information regarding the overall goodness-of-fit of the regression models. For the *daily* regression model, we obtain an r-squared value of 0.012 and an overall p-value of 0.8 while the *hourly* regression model has a better r-squared value of 0.021 and a p-value of <0.05 - indicating the regression model has statistically significant results. 
+
+The individual variables we tested with the daily traffic and weather data we obtain p-values > 0.05, which indicates that they are statistically non-significant and does not affect the overall daily traffic numbers in Changi. These are, of course, to be expected since there are scheduled flights to Changi airport and the overall delays from weather should be limited to certain hours and not throughout the day. The daily capacity of Changi airport, therefore is not significantly reduced by weather effects. When there is adverse weather in Changi at certain hours, these traffic are brought over to the next hours - which compensates for these traffic delays.
+
+The hourly traffic and weather data regression model, however, provides us with more insights on its relationships with different variables tested. Out of all the variables tested, the hourly rainfall and humidity recorded by the Changi weather station was statistically significant with a p-value respectively of less than 0.05. This indicates to some extent the relationship between the two variables affecting the hourly traffic rate at Changi. 
+
+From contextual knowledge, the fragility of adverse weather effects on traffic arriving to Changi are more significant as compared to departures (due to sensitivity of landing traffic to wind, visibility). We perform the same regression modelling with the arrival traffic as the dependent variable. We see that there is a statistically significant relationship between this independent variable with temperature, humidity and hourly recorded rainfall. However, the poor r-squared value of 0.021 still hints at some missing variables to compensate for the model's goodness of fit. 
+
+It would be interesting then to investigate if there are any latent variables missing to explain the relationship between Changi air traffic flow and weather. 
+
+
+
