@@ -8,6 +8,7 @@ library(lubridate)
 library(ggplot2)
 library(factoextra)
 library(broom)
+library(psych)
 ```
 
 
@@ -136,9 +137,9 @@ fa_hourly_cluster<-fa_hourly_stats[['scores']] %>%
   unclass() %>% 
   as_tibble(rownames = "local_time")
 
-
 fa_hourly_cluster<-fa_hourly_cluster %>% 
   column_to_rownames(var = "local_time")
+
 ```
 
 

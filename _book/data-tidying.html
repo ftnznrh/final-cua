@@ -25,7 +25,7 @@
 <meta name="author" content="Fatin Zunairah">
 
 
-<meta name="date" content="2019-04-26">
+<meta name="date" content="2019-05-04">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -104,14 +104,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="./">CUA Final Project</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Problem Statement</a><ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#problem-question"><i class="fa fa-check"></i>Problem Question</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i>Data</a></li>
-</ul></li>
 <li class="chapter" data-level="1" data-path="methods-of-analysis.html"><a href="methods-of-analysis.html"><i class="fa fa-check"></i><b>1</b> Methods of Analysis</a><ul>
-<li class="chapter" data-level="1.1" data-path="methods-of-analysis.html"><a href="methods-of-analysis.html#regression-and-correlationhypothesis-testing"><i class="fa fa-check"></i><b>1.1</b> Regression and Correlation/Hypothesis Testing</a></li>
-<li class="chapter" data-level="1.2" data-path="methods-of-analysis.html"><a href="methods-of-analysis.html#multidimensional-scaling-mds-principal-component-analysis"><i class="fa fa-check"></i><b>1.2</b> Multidimensional Scaling (MDS) &amp; Principal Component Analysis</a></li>
-<li class="chapter" data-level="1.3" data-path="methods-of-analysis.html"><a href="methods-of-analysis.html#cluster-analysis"><i class="fa fa-check"></i><b>1.3</b> Cluster Analysis</a></li>
+<li class="chapter" data-level="" data-path="methods-of-analysis.html"><a href="methods-of-analysis.html#regression-and-correlation"><i class="fa fa-check"></i>Regression and Correlation</a></li>
+<li class="chapter" data-level="" data-path="methods-of-analysis.html"><a href="methods-of-analysis.html#multidimensional-scaling-mds-factor-analysis"><i class="fa fa-check"></i>Multidimensional Scaling (MDS) &amp; Factor Analysis</a></li>
+<li class="chapter" data-level="" data-path="methods-of-analysis.html"><a href="methods-of-analysis.html#cluster-analysis"><i class="fa fa-check"></i>Cluster Analysis</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="data-tidying.html"><a href="data-tidying.html"><i class="fa fa-check"></i><b>2</b> Data Tidying</a></li>
 <li class="chapter" data-level="3" data-path="multiple-regression.html"><a href="multiple-regression.html"><i class="fa fa-check"></i><b>3</b> Multiple Regression</a></li>
@@ -145,45 +141,45 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 changi_daily_weather &lt;-<span class="st"> </span><span class="kw">read_excel</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;Data/daily_weather_changi.xlsx&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date=</span><span class="kw">date</span>(date))
 
-<span class="co"># Changi traffic data - Julu 2018 to February 2019 (hourly data)</span>
-changi_stats &lt;-<span class="st"> </span><span class="kw">read_excel</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;Data/changi_stats.xlsx&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">date</span>(local_time))
+<span class="co"># Changi traffic data - July 2018 to February 2019 (hourly data)</span>
+changi_stats &lt;-<span class="st"> </span><span class="kw">read_excel</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;Data/changi_stats.xlsx&quot;</span>))
 
+<span class="co">#Changi Weather and Traffic data - July 2018 to February 2019 (hourly data)</span>
+changi_hourly_weather&lt;-<span class="kw">read_excel</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;Data/weather_june18_feb19.xlsx&quot;</span>)) 
 
-<span class="co">#summary of daily sum of, and total departures and arrivals per day </span>
-
-tfc_flow&lt;-changi_stats <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">group_by</span>(date) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">arrival_tfc =</span> <span class="kw">sum</span>(arrival_tfc),
-            <span class="dt">departure_tfc =</span> <span class="kw">sum</span>(departure_tfc)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">daily_tfc =</span> departure_tfc<span class="op">+</span><span class="st"> </span>arrival_tfc) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">mean_hourly_tfc =</span> daily_tfc<span class="op">/</span><span class="dv">24</span>)
-daily_stats_weather&lt;-<span class="kw">left_join</span>(tfc_flow, changi_daily_weather)</code></pre></div>
-<pre><code>## Joining, by = &quot;date&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">changi_hourly_weather&lt;-<span class="kw">read_excel</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;Data/weather_june18_feb19.xlsx&quot;</span>)) 
 
 changi_hourly_weather &lt;-changi_hourly_weather <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">total_tfc =</span> departure_tfc<span class="op">+</span>arrival_tfc)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hourly_stats_weather &lt;-changi_hourly_weather <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">hour =</span> <span class="kw">hour</span>(local_time)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">date</span>(local_time))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">changi_stats &lt;-<span class="st"> </span><span class="kw">read_excel</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;Data/changi_stats.xlsx&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">daily_tfc =</span> departure_tfc<span class="op">+</span>arrival_tfc) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">date</span>(local_time))
 
-combined_data&lt;-<span class="st"> </span><span class="kw">left_join</span>(changi_hourly_weather, changi_stats) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date=</span><span class="kw">date</span>(local_time))</code></pre></div>
-<pre><code>## Joining, by = c(&quot;local_time&quot;, &quot;date&quot;)</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rainy_days &lt;-<span class="st"> </span>daily_stats_weather <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(daily_rainfall_mm<span class="op">&gt;</span><span class="dv">0</span>) 
 
-rainy_date&lt;-rainy_days <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">select</span>(date)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#combining daily traffic data and weather summaries</span>
-daily_stats_weather&lt;-<span class="kw">left_join</span>(tfc_flow, changi_daily_weather)</code></pre></div>
+daily_tfc_flow&lt;-changi_stats <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(date) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">daily_tfc =</span> <span class="kw">sum</span>(daily_tfc))
+
+daily_stats_weather &lt;-<span class="st"> </span><span class="kw">left_join</span>(changi_daily_weather, daily_tfc_flow)</code></pre></div>
 <pre><code>## Joining, by = &quot;date&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#To check if our hypothesis that weather affects air traffic flows is true, we look at days when there is some rain in Changi</span>
-rainy_days &lt;-<span class="st"> </span>daily_stats_weather <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(daily_rainfall_mm<span class="op">&gt;</span><span class="dv">0</span>) <span class="co"># filtering out dates when changi experiences some rainfall</span>
-<span class="co">#Out of 243 days, 113 days had some rain in Changi - that&#39;s almost half</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rain_hours &lt;-hourly_stats_weather <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(weather_main <span class="op">==</span><span class="st"> &quot;Rain&quot;</span><span class="op">|</span><span class="st"> </span>weather_main <span class="op">==</span><span class="st"> &quot;Thunderstorm&quot;</span>)
 
-rainy_date&lt;-rainy_days <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">select</span>(date) <span class="co">#filtering out the date component to join after performing MDS.</span></code></pre></div>
-<p>```</p>
+daily_stats_weather &lt;-daily_stats_weather <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">weather =</span> <span class="kw">if_else</span>(daily_rainfall_mm <span class="op">==</span><span class="st"> </span><span class="fl">0.0</span>, <span class="st">&quot;NO RAIN&quot;</span>, <span class="st">&quot;RAIN&quot;</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hourly_stats_weather&lt;-hourly_stats_weather <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>local_time) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">temp =</span> temp<span class="op">/</span><span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">temp_min =</span> temp_min<span class="op">/</span><span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">temp_max =</span> temp_max<span class="op">/</span><span class="dv">10</span>)
+
+daily_stats_weather&lt;-<span class="st"> </span>daily_stats_weather <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">daily_wind_speed =</span> wind_speed) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">daily_max_wind_speed =</span> max_wind_speed) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>wind_speed, <span class="op">-</span><span class="st"> </span>max_wind_speed)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data&lt;-<span class="st"> </span><span class="kw">left_join</span>(hourly_stats_weather, daily_stats_weather, <span class="dt">by =</span> <span class="st">&quot;date&quot;</span>)</code></pre></div>
 
 </div>
             </section>
