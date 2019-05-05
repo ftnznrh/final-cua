@@ -18,3 +18,90 @@ A cluster analysis on the dataset will be used to visualise any evidences of dat
 
 
 
+```{r include = FALSE}
+library(tidyverse)
+library(readxl)
+library(lubridate)
+library(ggplot2)
+library(factoextra)
+
+```
+
+
+
+```{r}
+#Weather data - July 2018 to February 2019 (daily summaries)
+changi_daily_weather <- read_excel(here::here("Data/daily_weather_changi.xlsx")) %>% 
+  mutate(date=date(date))
+
+# Changi traffic data - July 2018 to February 2019 (hourly data)
+changi_stats <- read_excel(here::here("Data/changi_stats.xlsx"))
+
+#Changi Weather and Traffic data - July 2018 to February 2019 (hourly data)
+changi_hourly_weather<-read_excel(here::here("Data/weather_june18_feb19.xlsx")) 
+
+
+changi_hourly_weather <-changi_hourly_weather %>% 
+  mutate(total_tfc = departure_tfc+arrival_tfc)
+```
+
+
+
+```{r}
+
+hourly_stats_weather <-changi_hourly_weather %>% 
+  mutate(hour = hour(local_time)) %>% 
+  mutate(date = date(local_time))
+
+```
+
+
+```{r}
+
+changi_stats <- read_excel(here::here("Data/changi_stats.xlsx")) %>% 
+  mutate(daily_tfc = departure_tfc+arrival_tfc) %>% 
+  mutate(date = date(local_time))
+
+
+daily_tfc_flow<-changi_stats %>% 
+  group_by(date) %>% 
+  summarise(daily_tfc = sum(daily_tfc))
+
+daily_stats_weather <- left_join(changi_daily_weather, daily_tfc_flow)
+```
+
+
+```{r}
+
+rain_hours <-hourly_stats_weather %>% 
+  filter(weather_main == "Rain"| weather_main == "Thunderstorm")
+
+daily_stats_weather <-daily_stats_weather %>% 
+  mutate(weather = if_else(daily_rainfall_mm == 0.0, "NO RAIN", "RAIN"))
+
+
+```
+
+
+
+```{r}
+hourly_stats_weather<-hourly_stats_weather %>% 
+  select(-local_time) %>% 
+  mutate(temp = temp/10) %>% 
+  mutate(temp_min = temp_min/10) %>% 
+  mutate(temp_max = temp_max/10)
+
+daily_stats_weather<- daily_stats_weather %>%
+  mutate(daily_wind_speed = wind_speed) %>% 
+  mutate(daily_max_wind_speed = max_wind_speed) %>%
+  select(-wind_speed, - max_wind_speed)
+```
+
+
+
+
+```{r}
+data<- left_join(hourly_stats_weather, daily_stats_weather, by = "date")
+```
+
+

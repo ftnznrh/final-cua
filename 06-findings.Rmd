@@ -1,2 +1,8 @@
 # Future Studies & Conclusion
 
+We are not able to fully explain or determine if weather is the only factor affecting Changi air traffic flows. However, we do see that there is a relationship between weather and traffic flows. These are evidenced by the loadings of each variable on the factor analysis conducted, as well as the multiple regression analysis of independent variables on daily traffic and hourly traffic numbers out of Changi. 
+
+The extent of these effects are similarly shown in the multiple regression analysis. The amount of rainfall is the most statistically significant variable with a p-value of less than 0.05 - indicating that its influence on the air traffic flows in Changi are quite significant. 
+Future studies should look at traffic reports/incidences which could also account for a reduction in air traffic flows in Changi.
+
+

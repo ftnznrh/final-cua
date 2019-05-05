@@ -50,6 +50,43 @@
 
 
 
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -116,6 +153,49 @@
 <div id="cluster-analysis" class="section level2 unnumbered">
 <h2>Cluster Analysis</h2>
 <p>A cluster analysis on the dataset will be used to visualise any evidences of data clustering on the dimension reduction factor analysis already performed in the earlier sections. Through clustering, we can see patterns in our datapoints which could allude to a similarity in conditions affecting air traffic flow.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Weather data - July 2018 to February 2019 (daily summaries)</span>
+changi_daily_weather &lt;-<span class="st"> </span><span class="kw">read_excel</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;Data/daily_weather_changi.xlsx&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date=</span><span class="kw">date</span>(date))
+
+<span class="co"># Changi traffic data - July 2018 to February 2019 (hourly data)</span>
+changi_stats &lt;-<span class="st"> </span><span class="kw">read_excel</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;Data/changi_stats.xlsx&quot;</span>))
+
+<span class="co">#Changi Weather and Traffic data - July 2018 to February 2019 (hourly data)</span>
+changi_hourly_weather&lt;-<span class="kw">read_excel</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;Data/weather_june18_feb19.xlsx&quot;</span>)) 
+
+
+changi_hourly_weather &lt;-changi_hourly_weather <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">total_tfc =</span> departure_tfc<span class="op">+</span>arrival_tfc)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hourly_stats_weather &lt;-changi_hourly_weather <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">hour =</span> <span class="kw">hour</span>(local_time)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">date</span>(local_time))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">changi_stats &lt;-<span class="st"> </span><span class="kw">read_excel</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;Data/changi_stats.xlsx&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">daily_tfc =</span> departure_tfc<span class="op">+</span>arrival_tfc) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">date</span>(local_time))
+
+
+daily_tfc_flow&lt;-changi_stats <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(date) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">daily_tfc =</span> <span class="kw">sum</span>(daily_tfc))
+
+daily_stats_weather &lt;-<span class="st"> </span><span class="kw">left_join</span>(changi_daily_weather, daily_tfc_flow)</code></pre></div>
+<pre><code>## Joining, by = &quot;date&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rain_hours &lt;-hourly_stats_weather <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(weather_main <span class="op">==</span><span class="st"> &quot;Rain&quot;</span><span class="op">|</span><span class="st"> </span>weather_main <span class="op">==</span><span class="st"> &quot;Thunderstorm&quot;</span>)
+
+daily_stats_weather &lt;-daily_stats_weather <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">weather =</span> <span class="kw">if_else</span>(daily_rainfall_mm <span class="op">==</span><span class="st"> </span><span class="fl">0.0</span>, <span class="st">&quot;NO RAIN&quot;</span>, <span class="st">&quot;RAIN&quot;</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hourly_stats_weather&lt;-hourly_stats_weather <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>local_time) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">temp =</span> temp<span class="op">/</span><span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">temp_min =</span> temp_min<span class="op">/</span><span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">temp_max =</span> temp_max<span class="op">/</span><span class="dv">10</span>)
+
+daily_stats_weather&lt;-<span class="st"> </span>daily_stats_weather <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">daily_wind_speed =</span> wind_speed) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">daily_max_wind_speed =</span> max_wind_speed) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>wind_speed, <span class="op">-</span><span class="st"> </span>max_wind_speed)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data&lt;-<span class="st"> </span><span class="kw">left_join</span>(hourly_stats_weather, daily_stats_weather, <span class="dt">by =</span> <span class="st">&quot;date&quot;</span>)</code></pre></div>
 
 </div>
 </div>
