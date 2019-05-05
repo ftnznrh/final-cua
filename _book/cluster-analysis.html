@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Chapter 5 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flow in Changi</title>
-  <meta name="description" content="Chapter 5 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flow in Changi">
+  <title>Chapter 4 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flows in Changi</title>
+  <meta name="description" content="Chapter 4 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flows in Changi">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Chapter 5 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flow in Changi" />
+  <meta property="og:title" content="Chapter 4 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flows in Changi" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flow in Changi" />
+  <meta name="twitter:title" content="Chapter 4 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flows in Changi" />
   
   
   
@@ -25,15 +25,15 @@
 <meta name="author" content="Fatin Zunairah">
 
 
-<meta name="date" content="2019-04-26">
+<meta name="date" content="2019-05-06">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="multidimensional-scaling.html">
-<link rel="next" href="findings.html">
+<link rel="prev" href="multiple-regression.html">
+<link rel="next" href="future-studies-conclusion.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -104,16 +104,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="./">CUA Final Project</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Problem Statement</a></li>
-<li class="chapter" data-level="" data-path="problem-question.html"><a href="problem-question.html"><i class="fa fa-check"></i>Problem Question</a></li>
-<li class="chapter" data-level="" data-path="data.html"><a href="data.html"><i class="fa fa-check"></i>Data</a></li>
 <li class="chapter" data-level="1" data-path="methods-of-analysis.html"><a href="methods-of-analysis.html"><i class="fa fa-check"></i><b>1</b> Methods of Analysis</a></li>
 <li class="chapter" data-level="2" data-path="data-tidying.html"><a href="data-tidying.html"><i class="fa fa-check"></i><b>2</b> Data Tidying</a></li>
 <li class="chapter" data-level="3" data-path="multiple-regression.html"><a href="multiple-regression.html"><i class="fa fa-check"></i><b>3</b> Multiple Regression</a></li>
-<li class="chapter" data-level="4" data-path="multidimensional-scaling.html"><a href="multidimensional-scaling.html"><i class="fa fa-check"></i><b>4</b> Multidimensional Scaling</a></li>
-<li class="chapter" data-level="5" data-path="cluster-analysis.html"><a href="cluster-analysis.html"><i class="fa fa-check"></i><b>5</b> Cluster Analysis</a></li>
-<li class="chapter" data-level="6" data-path="findings.html"><a href="findings.html"><i class="fa fa-check"></i><b>6</b> Findings</a></li>
-<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
+<li class="chapter" data-level="4" data-path="cluster-analysis.html"><a href="cluster-analysis.html"><i class="fa fa-check"></i><b>4</b> Cluster Analysis</a><ul>
+<li class="chapter" data-level="4.1" data-path="cluster-analysis.html"><a href="cluster-analysis.html#k-means-clustering"><i class="fa fa-check"></i><b>4.1</b> K-Means Clustering</a><ul>
+<li class="chapter" data-level="" data-path="cluster-analysis.html"><a href="cluster-analysis.html#daily-traffic-weather-data"><i class="fa fa-check"></i>Daily Traffic &amp; Weather Data</a></li>
+<li class="chapter" data-level="" data-path="cluster-analysis.html"><a href="cluster-analysis.html#hourly-traffic-weather-data"><i class="fa fa-check"></i>Hourly Traffic &amp; Weather Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="cluster-analysis.html"><a href="cluster-analysis.html#data-analysis"><i class="fa fa-check"></i><b>4.2</b> Data Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="future-studies-conclusion.html"><a href="future-studies-conclusion.html"><i class="fa fa-check"></i><b>5</b> Future Studies &amp; Conclusion</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -126,7 +127,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Analysis of Weather Influence on Air Traffic Flow in Changi</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Analysis of Weather Influence on Air Traffic Flows in Changi</a>
           </h1>
         </div>
 
@@ -135,29 +136,67 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="cluster-analysis" class="section level1">
-<h1><span class="header-section-number">Chapter 5</span> Cluster Analysis</h1>
-<p>1.A visual check of the MDS plot is not sufficient - perhaps a K-clustering analysis could provide more insight to the clustering pattern of the variables</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cluster_data&lt;-rainy_days <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">select</span>(date,daily_rainfall_mm, temp_mean_daily, daily_tfc, mean_hourly_tfc)
+<h1><span class="header-section-number">Chapter 4</span> Cluster Analysis</h1>
+<div id="k-means-clustering" class="section level2">
+<h2><span class="header-section-number">4.1</span> K-Means Clustering</h2>
+<p>A k-means clustering is a user-defined clustering algorithm that iteratively changes its centroid based on the lowest total sum of square distances between the centroids and each data point. We use this to help evaluate our visual check of clusters in the factor analysis conducted earlier.</p>
+<div id="daily-traffic-weather-data" class="section level3 unnumbered">
+<h3>Daily Traffic &amp; Weather Data</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fa_daily_cluster&lt;-fa_daily_stats[[<span class="st">&#39;scores&#39;</span>]] <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">unclass</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">as_tibble</span>(<span class="dt">rownames =</span> <span class="st">&quot;date&quot;</span>)
 
-cluster_data&lt;-cluster_data <span class="op">%&gt;%</span><span class="st"> </span>
+
+fa_daily_cluster&lt;-fa_daily_cluster <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">column_to_rownames</span>(<span class="dt">var =</span> <span class="st">&quot;date&quot;</span>)</code></pre></div>
-<p>2.We choose a cluster of 6 as the optimal number of clusters in the dataset.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(cluster_data, kmeans, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>)</code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kmeans_clusters &lt;-<span class="st"> </span><span class="kw">kmeans</span>(cluster_data, <span class="dt">centers =</span> <span class="dv">6</span>, <span class="dt">nstart =</span> <span class="dv">50</span>)
+<div id="optimal-number-of-clusters" class="section level4 unnumbered">
+<h4>Optimal Number of Clusters</h4>
+<p>We use two methods to determine the optimal number of clusters based on the lowest possible value total within sum of square distance between the centroid and each data point in the cluster. For the daily weather and traffic flow data set, we choose number of clusters = 7.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(fa_daily_cluster, kmeans, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(fa_daily_cluster, kmeans, <span class="dt">method =</span> <span class="st">&quot;silhouette&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">daily_kmeans_clusters &lt;-<span class="st"> </span><span class="kw">kmeans</span>(fa_daily_cluster, <span class="dt">centers =</span> <span class="dv">7</span>, <span class="dt">nstart =</span> <span class="dv">50</span>)
 
-<span class="kw">fviz_cluster</span>(kmeans_clusters, <span class="dt">data =</span> cluster_data)</code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<span class="kw">fviz_cluster</span>(daily_kmeans_clusters, <span class="dt">data =</span> fa_daily_cluster)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+</div>
+<div id="hourly-traffic-weather-data" class="section level3 unnumbered">
+<h3>Hourly Traffic &amp; Weather Data</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fa_hourly_cluster&lt;-fa_hourly_stats[[<span class="st">&#39;scores&#39;</span>]] <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">unclass</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">as_tibble</span>(<span class="dt">rownames =</span> <span class="st">&quot;local_time&quot;</span>)
 
+fa_hourly_cluster&lt;-fa_hourly_cluster <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">column_to_rownames</span>(<span class="dt">var =</span> <span class="st">&quot;local_time&quot;</span>)</code></pre></div>
+<div id="optimal-number-of-clusters-1" class="section level4 unnumbered">
+<h4>Optimal Number of Clusters</h4>
+<p>The optimal number of clusters chosen for the hourly weather data set is 4, to maximise the total distance within sum of squares</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(fa_hourly_cluster, kmeans, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(fa_hourly_cluster, kmeans, <span class="dt">method =</span> <span class="st">&quot;silhouette&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hourly_kmeans_clusters &lt;-<span class="st"> </span><span class="kw">kmeans</span>(fa_hourly_cluster, <span class="dt">centers =</span> <span class="dv">4</span>, <span class="dt">nstart =</span> <span class="dv">50</span>)
+
+<span class="kw">fviz_cluster</span>(hourly_kmeans_clusters, <span class="dt">data =</span> fa_hourly_cluster)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="data-analysis" class="section level2">
+<h2><span class="header-section-number">4.2</span> Data Analysis</h2>
+<p>The k-means clustering analysis on both data set indicate there is a categorical similarity between data points. These may indicate similar weather and traffic conditions.</p>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="multidimensional-scaling.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="findings.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="multiple-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="future-studies-conclusion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -187,7 +226,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/05-cluster-analysis.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/06-cluster-analysis.Rmd",
 "text": "Edit"
 },
 "history": {
