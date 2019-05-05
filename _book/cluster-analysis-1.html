@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Chapter 5 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flows in Changi</title>
-  <meta name="description" content="Chapter 5 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flows in Changi">
+  <title>Chapter 4 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flows in Changi</title>
+  <meta name="description" content="Chapter 4 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flows in Changi">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Chapter 5 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flows in Changi" />
+  <meta property="og:title" content="Chapter 4 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flows in Changi" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flows in Changi" />
+  <meta name="twitter:title" content="Chapter 4 Cluster Analysis | An Analysis of Weather Influence on Air Traffic Flows in Changi" />
   
   
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="multidimensional-scaling.html">
-<link rel="next" href="findings.html">
+<link rel="prev" href="multiple-regression.html">
+<link rel="next" href="future-studies-conclusion.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -111,10 +111,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="2" data-path="data-tidying.html"><a href="data-tidying.html"><i class="fa fa-check"></i><b>2</b> Data Tidying</a></li>
 <li class="chapter" data-level="3" data-path="multiple-regression.html"><a href="multiple-regression.html"><i class="fa fa-check"></i><b>3</b> Multiple Regression</a></li>
-<li class="chapter" data-level="4" data-path="multidimensional-scaling.html"><a href="multidimensional-scaling.html"><i class="fa fa-check"></i><b>4</b> Multidimensional Scaling</a></li>
-<li class="chapter" data-level="5" data-path="cluster-analysis-1.html"><a href="cluster-analysis-1.html"><i class="fa fa-check"></i><b>5</b> Cluster Analysis</a></li>
-<li class="chapter" data-level="6" data-path="findings.html"><a href="findings.html"><i class="fa fa-check"></i><b>6</b> Findings</a></li>
-<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
+<li class="chapter" data-level="4" data-path="cluster-analysis-1.html"><a href="cluster-analysis-1.html"><i class="fa fa-check"></i><b>4</b> Cluster Analysis</a><ul>
+<li class="chapter" data-level="4.1" data-path="cluster-analysis-1.html"><a href="cluster-analysis-1.html#k-means-clustering"><i class="fa fa-check"></i><b>4.1</b> K-Means Clustering</a><ul>
+<li class="chapter" data-level="" data-path="cluster-analysis-1.html"><a href="cluster-analysis-1.html#daily-traffic-weather-data"><i class="fa fa-check"></i>Daily Traffic &amp; Weather Data</a></li>
+<li class="chapter" data-level="" data-path="cluster-analysis-1.html"><a href="cluster-analysis-1.html#hourly-traffic-weather-data"><i class="fa fa-check"></i>Hourly Traffic &amp; Weather Data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="cluster-analysis-1.html"><a href="cluster-analysis-1.html#data-analysis"><i class="fa fa-check"></i><b>4.2</b> Data Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="future-studies-conclusion.html"><a href="future-studies-conclusion.html"><i class="fa fa-check"></i><b>5</b> Future Studies &amp; Conclusion</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -136,85 +140,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="cluster-analysis-1" class="section level1">
-<h1><span class="header-section-number">Chapter 5</span> Cluster Analysis</h1>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Weather data - July 2018 to February 2019 (daily summaries)</span>
-changi_daily_weather &lt;-<span class="st"> </span><span class="kw">read_excel</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;Data/daily_weather_changi.xlsx&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date=</span><span class="kw">date</span>(date))
-
-<span class="co"># Changi traffic data - July 2018 to February 2019 (hourly data)</span>
-changi_stats &lt;-<span class="st"> </span><span class="kw">read_excel</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;Data/changi_stats.xlsx&quot;</span>))
-
-<span class="co">#Changi Weather and Traffic data - July 2018 to February 2019 (hourly data)</span>
-changi_hourly_weather&lt;-<span class="kw">read_excel</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;Data/weather_june18_feb19.xlsx&quot;</span>)) 
-
-
-changi_hourly_weather &lt;-changi_hourly_weather <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">total_tfc =</span> departure_tfc<span class="op">+</span>arrival_tfc)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hourly_stats_weather &lt;-changi_hourly_weather <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">hour =</span> <span class="kw">hour</span>(local_time)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">date</span>(local_time))</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">changi_stats &lt;-<span class="st"> </span><span class="kw">read_excel</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;Data/changi_stats.xlsx&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">daily_tfc =</span> departure_tfc<span class="op">+</span>arrival_tfc) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">date =</span> <span class="kw">date</span>(local_time))
-
-
-daily_tfc_flow&lt;-changi_stats <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">group_by</span>(date) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">daily_tfc =</span> <span class="kw">sum</span>(daily_tfc))
-
-daily_stats_weather &lt;-<span class="st"> </span><span class="kw">left_join</span>(changi_daily_weather, daily_tfc_flow)</code></pre></div>
-<pre><code>## Joining, by = &quot;date&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data&lt;-<span class="st"> </span><span class="kw">left_join</span>(hourly_stats_weather, daily_stats_weather, <span class="dt">by =</span> <span class="st">&quot;date&quot;</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hourly_cluster_data&lt;-hourly_stats_weather <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>date, <span class="op">-</span>hour, <span class="op">-</span>weather_id, <span class="op">-</span>weather_description, <span class="op">-</span>weather_main) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">sample_n</span>(<span class="dv">100</span>)
-
-hourly_cluster_data&lt;-hourly_cluster_data <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">column_to_rownames</span>(<span class="dt">var =</span> <span class="st">&quot;local_time&quot;</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fa_daily_stats &lt;-<span class="st"> </span>daily_stats_weather <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">sample_n</span>(<span class="dv">100</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">column_to_rownames</span>(<span class="dt">var =</span> <span class="st">&quot;date&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">select</span>(daily_rainfall_mm, daily_tfc, daily_wind_speed, <span class="st">`</span><span class="dt">30min_rainfall_mm</span><span class="st">`</span>, <span class="st">`</span><span class="dt">60min_rainfall_mm</span><span class="st">`</span>, temp_mean_daily, daily_max_wind_speed) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">principal</span>(<span class="dt">nfactors =</span> <span class="dv">4</span>, <span class="dt">rotate =</span> <span class="st">&quot;varimax&quot;</span>)
-
-fa_daily_stats</code></pre></div>
-<pre><code>## Principal Components Analysis
-## Call: principal(r = ., nfactors = 4, rotate = &quot;varimax&quot;)
-## Standardized loadings (pattern matrix) based upon correlation matrix
-##                        RC1   RC4   RC2   RC3   h2     u2 com
-## daily_rainfall_mm     0.95 -0.21 -0.08 -0.02 0.96 0.0443 1.1
-## daily_tfc            -0.07  0.05  0.00  1.00 1.00 0.0016 1.0
-## daily_wind_speed     -0.18  0.80  0.42  0.09 0.86 0.1415 1.7
-## 30min_rainfall_mm     0.96 -0.23 -0.04 -0.06 0.97 0.0304 1.1
-## 60min_rainfall_mm     0.97 -0.19 -0.06 -0.07 0.99 0.0124 1.1
-## temp_mean_daily      -0.33  0.89  0.03  0.00 0.90 0.0986 1.3
-## daily_max_wind_speed -0.06  0.20  0.97  0.00 0.98 0.0246 1.1
-## 
-##                        RC1  RC4  RC2  RC3
-## SS loadings           2.91 1.60 1.12 1.01
-## Proportion Var        0.42 0.23 0.16 0.14
-## Cumulative Var        0.42 0.64 0.81 0.95
-## Proportion Explained  0.44 0.24 0.17 0.15
-## Cumulative Proportion 0.44 0.68 0.85 1.00
-## 
-## Mean item complexity =  1.2
-## Test of the hypothesis that 4 components are sufficient.
-## 
-## The root mean square of the residuals (RMSR) is  0.03 
-##  with the empirical chi square  4.62  with prob &lt;  NA 
-## 
-## Fit based upon off diagonal values = 1</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fa_daily_stats[[<span class="st">&#39;scores&#39;</span>]] <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">unclass</span>() <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">as_tibble</span>(<span class="dt">rownames =</span> <span class="st">&quot;date&quot;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> RC1, <span class="dt">y =</span> RC2)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> date))</code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(fa_hourly_cluster, kmeans, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>)</code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hourly_kmeans_clusters &lt;-<span class="st"> </span><span class="kw">kmeans</span>(fa_hourly_cluster, <span class="dt">centers =</span> <span class="dv">7</span>, <span class="dt">nstart =</span> <span class="dv">50</span>)
-
-<span class="kw">fviz_cluster</span>(hourly_kmeans_clusters, <span class="dt">data =</span> fa_hourly_cluster)</code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<h1><span class="header-section-number">Chapter 4</span> Cluster Analysis</h1>
+<div id="k-means-clustering" class="section level2">
+<h2><span class="header-section-number">4.1</span> K-Means Clustering</h2>
+<p>A k-means clustering is a user-defined clustering algorithm that iteratively changes its centroid based on the lowest total sum of square distances between the centroids and each data point. We use this to help evaluate our visual check of clusters in the factor analysis conducted earlier.</p>
+<div id="daily-traffic-weather-data" class="section level3 unnumbered">
+<h3>Daily Traffic &amp; Weather Data</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fa_daily_cluster&lt;-fa_daily_stats[[<span class="st">&#39;scores&#39;</span>]] <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">unclass</span>() <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">as_tibble</span>(<span class="dt">rownames =</span> <span class="st">&quot;date&quot;</span>)
@@ -222,21 +153,54 @@ fa_daily_stats</code></pre></div>
 
 fa_daily_cluster&lt;-fa_daily_cluster <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">column_to_rownames</span>(<span class="dt">var =</span> <span class="st">&quot;date&quot;</span>)</code></pre></div>
+<div id="optimal-number-of-clusters" class="section level4 unnumbered">
+<h4>Optimal Number of Clusters</h4>
+<p>We use two methods to determine the optimal number of clusters based on the lowest possible value total within sum of square distance between the centroid and each data point in the cluster. For the daily weather and traffic flow data set, we choose number of clusters = 7.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(fa_daily_cluster, kmeans, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>)</code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">daily_kmeans_clusters &lt;-<span class="st"> </span><span class="kw">kmeans</span>(fa_daily_cluster, <span class="dt">centers =</span> <span class="dv">5</span>, <span class="dt">nstart =</span> <span class="dv">50</span>)
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(fa_daily_cluster, kmeans, <span class="dt">method =</span> <span class="st">&quot;silhouette&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">daily_kmeans_clusters &lt;-<span class="st"> </span><span class="kw">kmeans</span>(fa_daily_cluster, <span class="dt">centers =</span> <span class="dv">7</span>, <span class="dt">nstart =</span> <span class="dv">50</span>)
 
 <span class="kw">fviz_cluster</span>(daily_kmeans_clusters, <span class="dt">data =</span> fa_daily_cluster)</code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+</div>
+<div id="hourly-traffic-weather-data" class="section level3 unnumbered">
+<h3>Hourly Traffic &amp; Weather Data</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fa_hourly_cluster&lt;-fa_hourly_stats[[<span class="st">&#39;scores&#39;</span>]] <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">unclass</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">as_tibble</span>(<span class="dt">rownames =</span> <span class="st">&quot;local_time&quot;</span>)
 
+fa_hourly_cluster&lt;-fa_hourly_cluster <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">column_to_rownames</span>(<span class="dt">var =</span> <span class="st">&quot;local_time&quot;</span>)</code></pre></div>
+<div id="optimal-number-of-clusters-1" class="section level4 unnumbered">
+<h4>Optimal Number of Clusters</h4>
+<p>The optimal number of clusters chosen for the hourly weather data set is 4, to maximise the total distance within sum of squares</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(fa_hourly_cluster, kmeans, <span class="dt">method =</span> <span class="st">&quot;wss&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fviz_nbclust</span>(fa_hourly_cluster, kmeans, <span class="dt">method =</span> <span class="st">&quot;silhouette&quot;</span>)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hourly_kmeans_clusters &lt;-<span class="st"> </span><span class="kw">kmeans</span>(fa_hourly_cluster, <span class="dt">centers =</span> <span class="dv">4</span>, <span class="dt">nstart =</span> <span class="dv">50</span>)
+
+<span class="kw">fviz_cluster</span>(hourly_kmeans_clusters, <span class="dt">data =</span> fa_hourly_cluster)</code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="data-analysis" class="section level2">
+<h2><span class="header-section-number">4.2</span> Data Analysis</h2>
+<p>The k-means clustering analysis on both data set indicate there is a categorical similarity between data points. These may indicate</p>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="multidimensional-scaling.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="findings.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="multiple-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="future-studies-conclusion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

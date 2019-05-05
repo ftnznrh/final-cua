@@ -197,4 +197,4 @@ fviz_cluster(hourly_kmeans_clusters, data = fa_hourly_cluster)
 
 ##Data Analysis 
 
-The k-means clustering analysis on both data set indicate there is a categorical similarity between data points. 
+The k-means clustering analysis on both data set indicate there is a categorical similarity between data points. These may indicate 
