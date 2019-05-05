@@ -244,6 +244,6 @@ In the above plot, there is a lack of ckustering of data points. However, we can
 
 Dimension reduction techniques of multidimensional scaling and factor analysis performed in this section showed that the variables tested in the dataset had some evidence of clustering. In particular, the MDS process yielded some clustering in the daily weather and Chqngi traffic reports. However the MDS process only provided us with this evidence through the creation of a distance matrix, which does not sufficiently provide us with the extent of detail of each variable's relationship with each other. 
 
-On the other hand, a factor analysis r
+To do so, a factor analysis was conducted on the data. Its loadings, shown in the plots above did show the inverse relationship between weather and air traffic flows in Changi. There are still some evidences of clustering in the data similarly indicating a latent variable not compensated for in the data analysed here. 
 
 

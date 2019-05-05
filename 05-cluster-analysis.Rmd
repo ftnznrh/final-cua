@@ -129,8 +129,12 @@ fa_hourly_stats <- hourly_stats_weather %>%
 
 fa_hourly_stats
 ```
-
 ##K-Means Clustering
+
+
+
+
+
 
 ###Daily Traffic & Weather Data {-}
 ```{r}
@@ -143,6 +147,7 @@ fa_daily_cluster<-fa_daily_cluster %>%
   column_to_rownames(var = "date")
 ```
 
+####Optimal Number of Clusters{-}
 
 ```{r}
 fviz_nbclust(fa_daily_cluster, kmeans, method = "wss")
@@ -171,7 +176,7 @@ fa_hourly_cluster<-fa_hourly_cluster %>%
 
 ```
 
-
+####Optimal Number of Clusters{-}
 ```{r}
 fviz_nbclust(fa_hourly_cluster, kmeans, method = "wss")
 ```
@@ -183,7 +188,7 @@ fviz_nbclust(fa_hourly_cluster, kmeans, method = "silhouette")
 
 
 ```{r}
-hourly_kmeans_clusters <- kmeans(fa_hourly_cluster, centers = 3, nstart = 50)
+hourly_kmeans_clusters <- kmeans(fa_hourly_cluster, centers = 4, nstart = 50)
 
 fviz_cluster(hourly_kmeans_clusters, data = fa_hourly_cluster)
 ```
