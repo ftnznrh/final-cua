@@ -1,5 +1,8 @@
 #Dimension Reduction
 
+
+
+
 ```{r include=FALSE}
 library(tidyverse)
 library(readxl)
@@ -47,7 +50,7 @@ daily_stats_weather <- left_join(changi_daily_weather, daily_tfc_flow)
 ```
 
 
-```{r}
+```{r include = FALSE}
 
 hourly_stats_weather <-changi_hourly_weather %>% 
   mutate(hour = hour(local_time)) %>% 

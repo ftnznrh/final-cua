@@ -12,7 +12,7 @@ library(psych)
 ```
 
 
-```{r}
+```{r include=FALSE}
 #Weather data - July 2018 to February 2019 (daily summaries)
 changi_daily_weather <- read_excel(here::here("Data/daily_weather_changi.xlsx")) %>% 
   mutate(date=date(date))
@@ -30,7 +30,7 @@ changi_hourly_weather <-changi_hourly_weather %>%
 
 
 
-```{r}
+```{r include=FALSE}
 
 hourly_stats_weather <-changi_hourly_weather %>% 
   mutate(hour = hour(local_time)) %>% 
@@ -39,7 +39,7 @@ hourly_stats_weather <-changi_hourly_weather %>%
 ```
 
 
-```{r}
+```{r include=FALSE}
 
 changi_stats <- read_excel(here::here("Data/changi_stats.xlsx")) %>% 
   mutate(daily_tfc = departure_tfc+arrival_tfc) %>% 
@@ -54,7 +54,7 @@ daily_stats_weather <- left_join(changi_daily_weather, daily_tfc_flow)
 ```
 
 
-```{r include=F}
+```{r include=FALSE}
 
 rain_hours <-hourly_stats_weather %>% 
   filter(weather_main == "Rain"| weather_main == "Thunderstorm")
@@ -83,7 +83,7 @@ daily_stats_weather<- daily_stats_weather %>%
 
 
 
-```{r}
+```{r include=FALSE}
 data<- left_join(hourly_stats_weather, daily_stats_weather, by = "date")
 ```
 
@@ -177,7 +177,7 @@ fa_hourly_cluster<-fa_hourly_cluster %>%
 
 ####Optimal Number of Clusters{-}
 
-The optimal number of clusters chosen for the hourly weather
+The optimal number of clusters chosen for the hourly weather data set is 4, to maximise the total distance within sum of squares 
 
 ```{r}
 fviz_nbclust(fa_hourly_cluster, kmeans, method = "wss")
@@ -197,4 +197,4 @@ fviz_cluster(hourly_kmeans_clusters, data = fa_hourly_cluster)
 
 ##Data Analysis 
 
-
+The k-means clustering analysis on both data set indicate there is a categorical similarity between data points. 
