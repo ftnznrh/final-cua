@@ -1,4 +1,4 @@
-# Multidimensional Scaling
+#Dimension Reduction
 
 ```{r include=FALSE}
 library(tidyverse)
@@ -88,51 +88,25 @@ data <-left_join(hourly_stats_weather, daily_stats_weather, by = c("date"))
 ```
 
 
-We perform MDS to reduce t
+With the multiple independent variables in the data, it would be difficult to see the similarity or dissimilarity between two dependent variables. Dimension reduction techniques, however, allows the data analyst to see these information within a one-dimensional cartesian space. Here, we conduct two different methods of dimension reduction: MDS and Factor Analysis.
 
-```{r}
-hourly_weather_mds<- hourly_stats_weather %>% 
-  sample_n(100, replace = T)
+##Multi-Dimensional Scaling (MDS)
 
-hourly_date<- hourly_weather_mds%>% 
-  select(local_time)
+In MDS, dimension reduction is conducted based on the *distance* between each variable in the dataset. To perform MDS a distance matrix is first determined.  
 
-hourly_weather_matrix<-hourly_weather_mds %>% 
-  select(rainfall_mm, temp_max, total_tfc) %>%
-  as.matrix()
+###Daily Traffic & Weather Data {-}
 
-```
 
 
 ```{r}
-hourly_weather_distance<- distances::distances(hourly_weather_matrix, normalize = "studentize") %>% 
-  as.matrix()
-
-hourly_mds_weather <- cmdscale(hourly_weather_distance) %>% 
-  as_tibble()
-
-
-
-hourly_mds_weather <- hourly_date %>% 
-  select(local_time) %>% 
-  bind_cols(., hourly_mds_weather)
-```
-
-2.Results from MDS of daily rainfall, traffic flow and daily mean temperature on rainy days in Changi Airport
-```{r}
-ggplot(hourly_mds_weather, aes(x = V1, y = V2)) + geom_text(aes(label = local_time))
-```
-
-
-```{r}
-daily_weather_mds<-daily_stats_weather %>% 
-  sample_n(50, replace = TRUE)
+daily_weather_mds<-daily_stats_weather %>% #a sample is chosen to show more visual clarity
+  sample_n(100)
 
 daily_date<- daily_weather_mds %>% 
   select(date)
 
 daily_weather_matrix<-daily_weather_mds %>% 
-  select(daily_rainfall_mm, temp_mean_daily, daily_tfc, daily_wind_speed) %>%
+  select(-date) %>%
   as.matrix()
 ```
 
@@ -154,74 +128,122 @@ daily_mds_weather <- daily_date %>%
 
 
 ```{r}
-ggplot(daily_mds_weather, aes(x = V1, y = V2)) + geom_text(aes(label = date))
+ggplot(daily_mds_weather, aes(x = V1, y = V2)) + geom_point(aes(colour = month(date)))
+```
+Looking at the MDS of daily weather and traffic data visually, we see that there are some distinct clusters of dates - indicating similarity/dissimilarity in their corresponding variables. There were no distinct clusters based on the month the data was tested. It shows that despite being from different months, its tested variables were similar to each other which could probably be due to an unknown, latent variable.
+
+###Hourly Traffic & Weather Data {-}
+```{r}
+hourly_weather_mds<- hourly_stats_weather %>% 
+  sample_n(100)
+
+hourly_date<- hourly_weather_mds%>% 
+  select(local_time)
+
+hourly_weather_matrix<-hourly_weather_mds %>% 
+  select(-local_time, -weather_id, -weather_main, -weather_description, -clouds_all, -date, -arrival_tfc, -departure_tfc) %>%
+  as.matrix()
+
 ```
 
-##FA
 
+```{r}
+hourly_weather_distance<- distances::distances(hourly_weather_matrix, normalize = "studentize") %>% 
+  as.matrix()
+
+hourly_mds_weather <- cmdscale(hourly_weather_distance) %>% 
+  as_tibble()
+
+
+hourly_mds_weather <- hourly_date %>% 
+  select(local_time) %>% 
+  bind_cols(., hourly_mds_weather)
+```
+
+
+```{r}
+ggplot(hourly_mds_weather, aes(x = V1, y = V2)) + geom_point(aes(colour = hour(local_time)))
+```
+
+Results of MDS on the hourly weather shows more variance as compared to that of the daily weather (which had distinct clusters). However, when we look at the difference between the hours visually, there emerges a pattern. The lower half of the plot corresponded with the evening hours while the upper half had traffic from the morning hours.
+
+
+###Data Analysis
+
+Results of the MDS showed some similarities between the variables despite their vast differences in dates. This indicates that there are certain variables that would affect the Changi traffic flows more than other variables. These clusters would be interesting to investigate further so we can determine if there are other missing variables that could explain its similarity. The presence of outliers may also indicate an extreme dissimilarity between the variables tested.
+
+##Factor Analysis
+
+A factor analysis is performed here to investigate if there *is* a latent variable that would be able to explain the variances in the data. 
+
+###Daily Traffic & Weather Data {-}
 ```{r}
 fa_daily_stats <- daily_stats_weather %>% 
   sample_n(100) %>% 
   column_to_rownames(var = "date") %>% 
-  select(daily_rainfall_mm, daily_tfc, daily_wind_speed, `30min_rainfall_mm`, `60min_rainfall_mm`, temp_mean_daily, daily_max_wind_speed) %>% 
   principal(nfactors = 4, rotate = "varimax")
 
 fa_daily_stats
 ```
 
+```{r}
+fa_daily_stats[['loadings']] %>% 
+  unclass() %>% 
+  as_tibble(rownames = "date") %>%
+  gather(key = "component", value = "value", -date) %>% 
+  ggplot(aes(x = date, y = value)) + geom_hline(yintercept=0)+
+  geom_point() + coord_flip() + facet_grid(~component)
+```
 
+
+
+RC4 and RC3 explains 91% of the data's variance. We then plot them on cartesian coordinates to visualise it better. If there is a latent variable, we should anticipate that there would be certain clusters still available and a randomness should not be expected. The loadings in the factor analysis shows different types of modeling. In RC1, for example, the factor describes a model that describes high rainfall levels, low temperatures and normal daily traffic levels. Inversely in RC3, a high daily traffic in Changi relates to normal weather conditions. This indicates a high level relationship between weather and Changi air traffic flows. 
 
 ```{r}
 fa_daily_stats[['scores']] %>% 
   unclass() %>% 
   as_tibble(rownames = "date") %>%
-  ggplot(aes(x = RC1, y = RC2)) + geom_text(aes(label = date))
+  ggplot(aes(x = RC4, y = RC3)) + geom_point(aes(colour = month(date)))
 ```
 
-
+###Hourly Traffic & Weather Data {-}
 
 ```{r}
 fa_hourly_stats <- hourly_stats_weather %>% 
   sample_n(100) %>% 
   column_to_rownames(var = "local_time") %>% 
-  select(total_tfc,rainfall_mm, humidity, pressure, wind_speed, temp, wind_deg, temp_max) %>% 
+  select(-weather_id, -weather_main, -weather_description, -clouds_all, -date, -departure_tfc, -arrival_tfc) %>% 
   principal(nfactors = 4, rotate = "varimax")
 
 fa_hourly_stats
 ```
 
+```{r}
+fa_hourly_stats[['loadings']] %>% 
+  unclass() %>% 
+  as_tibble(rownames = "local_time") %>%
+  gather(key = "component", value = "value", -local_time) %>% 
+  ggplot(aes(x = local_time, y = value)) + geom_hline(yintercept=0)+
+  geom_point() + coord_flip() + facet_grid(~component)
+```
+
+The factor analysis results hourly weather and traffic dataset provides us with similar relationships. We are able to visualise how humidity inversely affects the total amount of traffic handled in the hour. Since a higher humidity value is related to temperature and points towards adverse weather (high humidity = more clouds, generally), this could indicate how weather affects hourly air traffic flows in Changi.
 
 ```{r}
 fa_hourly_stats[['scores']] %>% 
   unclass() %>% 
   as_tibble(rownames = "local_time") %>%
-  ggplot(aes(x = RC4, y = RC2)) + geom_text(aes(label = local_time))
+  ggplot(aes(x = RC2, y = RC3)) + geom_point(aes(colour = hour(local_time)))
 ```
 
-
-```{r}
-fa_hourly_cluster<-fa_hourly_stats[['scores']] %>% 
-  unclass() %>% 
-  as_tibble(rownames = "local_time")
+In the above plot, there is a lack of ckustering of data points. However, we can also see that there is a distinct difference in the left and right half of the plots - the variables related to the evening hours have points clustered to the right half while the early hours have its variables clustered on the left hand side of the factor analysis plot. 
 
 
-fa_hourly_cluster<-fa_hourly_cluster %>% 
-  column_to_rownames(var = "local_time")
-```
 
+##Data Analysis
 
-```{r}
-fviz_nbclust(fa_hourly_cluster, kmeans, method = "wss")
-```
+Dimension reduction techniques of multidimensional scaling and factor analysis performed in this section showed that the variables tested in the dataset had some evidence of clustering. In particular, the MDS process yielded some clustering in the daily weather and Chqngi traffic reports. However the MDS process only provided us with this evidence through the creation of a distance matrix, which does not sufficiently provide us with the extent of detail of each variable's relationship with each other. 
 
-
-```{r}
-
-hourly_kmeans_clusters <- kmeans(fa_hourly_cluster, centers = 7, nstart = 50)
-
-fviz_cluster(hourly_kmeans_clusters, data = fa_hourly_cluster)
-```
-
-
+On the other hand, a factor analysis r
 
 

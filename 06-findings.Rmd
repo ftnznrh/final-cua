@@ -1,3 +1,2 @@
-# Findings
+# Future Studies & Conclusion
 
-However, preliminary results indicate that the distances between the variables dont vary too much and clusters around the (0,0) axis. The outliers are of interest and subsequent data analyses will seek to explore why there is a significant distance between them and the main data clustering.

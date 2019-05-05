@@ -104,7 +104,7 @@ tidy(ols_hourly_arrival_traffic_weather)
 
 
 
-##Data Results & Analysis
+##Data Analysis
 
 From the multiple regression models demonstrated above, we do a statistical summary of its results. The r-squared value provides us information regarding the overall goodness-of-fit of the regression models. For the *daily* regression model, we obtain an r-squared value of 0.012 and an overall p-value of 0.8 while the *hourly* regression model has a better r-squared value of 0.021 and a p-value of <0.05 - indicating the regression model has statistically significant results. 
 

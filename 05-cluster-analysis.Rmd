@@ -89,7 +89,7 @@ data<- left_join(hourly_stats_weather, daily_stats_weather, by = "date")
 
 
 
-```{r}
+```{r include = FALSE}
 hourly_cluster_data<-hourly_stats_weather %>% 
   select(-date, -hour, -weather_id, -weather_description, -weather_main) %>% 
   sample_n(100)
@@ -100,11 +100,10 @@ hourly_cluster_data<-hourly_cluster_data %>%
 
 
 
-```{r}
+```{r include = FALSE}
 fa_daily_stats <- daily_stats_weather %>% 
   sample_n(100) %>% 
-  column_to_rownames(var = "date") %>% 
-  select(daily_rainfall_mm, daily_tfc, daily_wind_speed, `30min_rainfall_mm`, `60min_rainfall_mm`, temp_mean_daily, daily_max_wind_speed) %>% 
+  column_to_rownames(var = "date") %>%
   principal(nfactors = 4, rotate = "varimax")
 
 fa_daily_stats
@@ -112,7 +111,7 @@ fa_daily_stats
 
 
 
-```{r}
+```{r include = FALSE}
 fa_daily_stats[['scores']] %>% 
   unclass() %>% 
   as_tibble(rownames = "date") %>%
@@ -125,14 +124,44 @@ fa_daily_stats[['scores']] %>%
 fa_hourly_stats <- hourly_stats_weather %>% 
   sample_n(100) %>% 
   column_to_rownames(var = "local_time") %>% 
-  select(total_tfc,rainfall_mm, humidity, pressure, wind_speed, temp, wind_deg, temp_max) %>% 
+  select(-weather_id, -weather_main, -weather_description, -clouds_all, -date) %>% 
   principal(nfactors = 4, rotate = "varimax")
 
 fa_hourly_stats
 ```
 
+##K-Means Clustering
 
-```{r include=FALSE}
+###Daily Traffic & Weather Data {-}
+```{r}
+fa_daily_cluster<-fa_daily_stats[['scores']] %>% 
+  unclass() %>% 
+  as_tibble(rownames = "date")
+
+
+fa_daily_cluster<-fa_daily_cluster %>% 
+  column_to_rownames(var = "date")
+```
+
+
+```{r}
+fviz_nbclust(fa_daily_cluster, kmeans, method = "wss")
+```
+
+
+```{r}
+fviz_nbclust(fa_daily_cluster, kmeans, method = "silhouette")
+```
+
+
+```{r}
+daily_kmeans_clusters <- kmeans(fa_daily_cluster, centers = 7, nstart = 50)
+
+fviz_cluster(daily_kmeans_clusters, data = fa_daily_cluster)
+```
+
+###Hourly Traffic & Weather Data {-}
+```{r}
 fa_hourly_cluster<-fa_hourly_stats[['scores']] %>% 
   unclass() %>% 
   as_tibble(rownames = "local_time")
@@ -149,31 +178,16 @@ fviz_nbclust(fa_hourly_cluster, kmeans, method = "wss")
 
 
 ```{r}
-hourly_kmeans_clusters <- kmeans(fa_hourly_cluster, centers = 7, nstart = 50)
+fviz_nbclust(fa_hourly_cluster, kmeans, method = "silhouette")
+```
+
+
+```{r}
+hourly_kmeans_clusters <- kmeans(fa_hourly_cluster, centers = 3, nstart = 50)
 
 fviz_cluster(hourly_kmeans_clusters, data = fa_hourly_cluster)
 ```
 
-
-```{r}
-fa_daily_cluster<-fa_daily_stats[['scores']] %>% 
-  unclass() %>% 
-  as_tibble(rownames = "date")
-
-
-fa_daily_cluster<-fa_daily_cluster %>% 
-  column_to_rownames(var = "date")
-```
-
-
-```{r}
-fviz_nbclust(fa_daily_cluster, kmeans, method = "wss")
-```
-
-```{r}
-daily_kmeans_clusters <- kmeans(fa_daily_cluster, centers = 5, nstart = 50)
-
-fviz_cluster(daily_kmeans_clusters, data = fa_daily_cluster)
-```
+##Data Analysis 
 
 
