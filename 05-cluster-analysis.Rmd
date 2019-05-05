@@ -131,10 +131,7 @@ fa_hourly_stats
 ```
 ##K-Means Clustering
 
-
-
-
-
+A k-means clustering is a user-defined clustering algorithm that iteratively changes its centroid based on the lowest total sum of square distances between the centroids and each data point. We use this to help evaluate our visual evaluation of clusters in the factor analysis 
 
 ###Daily Traffic & Weather Data {-}
 ```{r}
