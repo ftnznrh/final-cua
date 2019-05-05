@@ -131,7 +131,7 @@ fa_hourly_stats
 ```
 ##K-Means Clustering
 
-A k-means clustering is a user-defined clustering algorithm that iteratively changes its centroid based on the lowest total sum of square distances between the centroids and each data point. We use this to help evaluate our visual evaluation of clusters in the factor analysis conducted earlier.  
+A k-means clustering is a user-defined clustering algorithm that iteratively changes its centroid based on the lowest total sum of square distances between the centroids and each data point. We use this to help evaluate our visual check of clusters in the factor analysis conducted earlier.  
 
 ###Daily Traffic & Weather Data {-}
 ```{r}
@@ -145,6 +145,8 @@ fa_daily_cluster<-fa_daily_cluster %>%
 ```
 
 ####Optimal Number of Clusters{-}
+
+We use two methods to determine the optimal number of clusters based on the lowest possible value total within sum of square distance between the centroid and each data point in the cluster. For the daily weather and traffic flow data set, we choose number of clusters = 7.
 
 ```{r}
 fviz_nbclust(fa_daily_cluster, kmeans, method = "wss")
@@ -174,6 +176,9 @@ fa_hourly_cluster<-fa_hourly_cluster %>%
 ```
 
 ####Optimal Number of Clusters{-}
+
+The optimal number of clusters chosen for the hourly weather
+
 ```{r}
 fviz_nbclust(fa_hourly_cluster, kmeans, method = "wss")
 ```

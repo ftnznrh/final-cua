@@ -226,31 +226,31 @@ fa_daily_stats</code></pre></div>
 ## Call: principal(r = ., nfactors = 4, rotate = &quot;varimax&quot;)
 ## Standardized loadings (pattern matrix) based upon correlation matrix
 ##                        RC1   RC2   RC3   RC4   h2    u2 com
-## daily_rainfall_mm     0.96 -0.18 -0.10  0.05 0.97 0.028 1.1
-## 30min_rainfall_mm     0.96 -0.16 -0.12  0.08 0.97 0.032 1.1
-## 60min_rainfall_mm     0.97 -0.16 -0.12  0.08 0.99 0.014 1.1
-## 120min_rainfall_mm    0.95 -0.01 -0.28  0.04 0.97 0.028 1.2
-## temp_mean_daily      -0.25  0.86  0.28 -0.07 0.88 0.115 1.4
-## temp_daily_max       -0.11  0.24  0.89  0.00 0.86 0.136 1.2
-## temp_daily_min       -0.28 -0.15  0.84 -0.07 0.81 0.185 1.3
-## daily_tfc            -0.11  0.19 -0.02 -0.81 0.70 0.299 1.1
-## daily_wind_speed     -0.13  0.92 -0.12  0.12 0.89 0.105 1.1
-## daily_max_wind_speed  0.04  0.32 -0.08  0.68 0.58 0.420 1.5
+## daily_rainfall_mm     0.95 -0.13 -0.14  0.04 0.94 0.059 1.1
+## 30min_rainfall_mm     0.97 -0.10 -0.10 -0.01 0.96 0.044 1.0
+## 60min_rainfall_mm     0.98 -0.10 -0.11  0.00 0.98 0.020 1.0
+## 120min_rainfall_mm    0.91  0.04 -0.36  0.07 0.96 0.042 1.3
+## temp_mean_daily      -0.44  0.68  0.16  0.25 0.74 0.255 2.2
+## temp_daily_max       -0.14  0.18  0.84  0.15 0.78 0.216 1.2
+## temp_daily_min       -0.29 -0.14  0.85 -0.06 0.82 0.178 1.3
+## daily_tfc             0.09  0.03  0.08  0.93 0.89 0.111 1.0
+## daily_wind_speed     -0.25  0.89 -0.24  0.13 0.93 0.070 1.4
+## daily_max_wind_speed  0.27  0.74  0.21 -0.26 0.73 0.268 1.7
 ## 
 ##                        RC1  RC2  RC3  RC4
-## SS loadings           3.86 1.90 1.71 1.16
-## Proportion Var        0.39 0.19 0.17 0.12
-## Cumulative Var        0.39 0.58 0.75 0.86
-## Proportion Explained  0.45 0.22 0.20 0.13
-## Cumulative Proportion 0.45 0.67 0.87 1.00
+## SS loadings           4.07 1.89 1.73 1.05
+## Proportion Var        0.41 0.19 0.17 0.11
+## Cumulative Var        0.41 0.60 0.77 0.87
+## Proportion Explained  0.47 0.22 0.20 0.12
+## Cumulative Proportion 0.47 0.68 0.88 1.00
 ## 
-## Mean item complexity =  1.2
+## Mean item complexity =  1.3
 ## Test of the hypothesis that 4 components are sufficient.
 ## 
 ## The root mean square of the residuals (RMSR) is  0.07 
-##  with the empirical chi square  43.71  with prob &lt;  8.2e-06 
+##  with the empirical chi square  41.07  with prob &lt;  2.3e-05 
 ## 
-## Fit based upon off diagonal values = 0.97</code></pre>
+## Fit based upon off diagonal values = 0.98</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fa_daily_stats[[<span class="st">&#39;loadings&#39;</span>]] <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">unclass</span>() <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">as_tibble</span>(<span class="dt">rownames =</span> <span class="st">&quot;date&quot;</span>) <span class="op">%&gt;%</span>
@@ -278,30 +278,30 @@ fa_hourly_stats</code></pre></div>
 <pre><code>## Principal Components Analysis
 ## Call: principal(r = ., nfactors = 4, rotate = &quot;varimax&quot;)
 ## Standardized loadings (pattern matrix) based upon correlation matrix
-##               RC1   RC2   RC4   RC3   h2    u2 com
-## temp         0.95  0.06 -0.23  0.11 0.96 0.036 1.1
-## temp_min     0.93  0.09 -0.19  0.03 0.90 0.096 1.1
-## temp_max     0.91  0.05 -0.24  0.14 0.90 0.095 1.2
-## pressure    -0.33 -0.03  0.60 -0.38 0.61 0.388 2.3
-## humidity    -0.92 -0.02  0.03 -0.05 0.86 0.141 1.0
-## wind_speed   0.68  0.06  0.20 -0.05 0.51 0.493 1.2
-## wind_deg     0.05 -0.03  0.06  0.93 0.88 0.119 1.0
-## rainfall_mm -0.01  0.12  0.83  0.20 0.75 0.252 1.2
-## total_tfc   -0.02  0.92  0.09  0.06 0.86 0.143 1.0
-## hour         0.17  0.91  0.01 -0.09 0.85 0.145 1.1
+##               RC1   RC2   RC3   RC4   h2    u2 com
+## temp         0.97  0.09  0.10  0.06 0.97 0.034 1.0
+## temp_min     0.94  0.09  0.04  0.08 0.89 0.109 1.0
+## temp_max     0.94  0.07  0.14  0.07 0.92 0.085 1.1
+## pressure    -0.25  0.19 -0.76  0.00 0.67 0.327 1.4
+## humidity    -0.90 -0.14 -0.04 -0.03 0.83 0.172 1.1
+## wind_speed   0.72 -0.08  0.09 -0.17 0.56 0.444 1.2
+## wind_deg    -0.01  0.22  0.82 -0.03 0.73 0.270 1.2
+## rainfall_mm  0.03  0.07 -0.02  0.99 0.98 0.023 1.0
+## total_tfc    0.06  0.91  0.01  0.13 0.85 0.150 1.1
+## hour         0.10  0.88  0.04 -0.03 0.79 0.211 1.0
 ## 
-##                        RC1  RC2  RC4  RC3
-## SS loadings           4.04 1.70 1.25 1.10
-## Proportion Var        0.40 0.17 0.13 0.11
-## Cumulative Var        0.40 0.57 0.70 0.81
-## Proportion Explained  0.50 0.21 0.15 0.14
-## Cumulative Proportion 0.50 0.71 0.86 1.00
+##                        RC1  RC2  RC3  RC4
+## SS loadings           4.10 1.75 1.29 1.03
+## Proportion Var        0.41 0.17 0.13 0.10
+## Cumulative Var        0.41 0.58 0.71 0.82
+## Proportion Explained  0.50 0.21 0.16 0.13
+## Cumulative Proportion 0.50 0.72 0.87 1.00
 ## 
-## Mean item complexity =  1.2
+## Mean item complexity =  1.1
 ## Test of the hypothesis that 4 components are sufficient.
 ## 
 ## The root mean square of the residuals (RMSR) is  0.07 
-##  with the empirical chi square  47.85  with prob &lt;  1.5e-06 
+##  with the empirical chi square  44.36  with prob &lt;  6.3e-06 
 ## 
 ## Fit based upon off diagonal values = 0.97</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fa_hourly_stats[[<span class="st">&#39;loadings&#39;</span>]] <span class="op">%&gt;%</span><span class="st"> </span>
