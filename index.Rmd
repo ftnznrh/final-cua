@@ -10,21 +10,21 @@ biblio-style: apalike
 link-citations: yes
 ---
 
-#Problem Statement{-}
+#Problem Statement
 
 The flow of departures and arrivals into an airport are dependent on different variables. By understanding how these variables affect the flow of traffic, the capacity and operations of the airport can be managed more efficiently. 
 Disruptions to the air traffic flows can lead to traffic congestion and a knock-on effect on subsequent departures and arrivals. One of the more pressing issues encountered in Singapore is the effect of weather on air traffic flow.
 
 By analysing Singapore’s weather and air traffic flows, we can theorise the extent of effect weather has on air traffic congestion and evaluate how successful certain measures to mitigate air traffic congestion from effects of adverse weather have had on Changi operations. 
 
-##Problem Question {-}
+##Problem Question
 
 This project will attempt to answer the following research question:
 
 *To what extent does weather affect air traffic flows in Changi?*
 
 
-##Data {-}
+##Data
 
 Two different datasets will be used – daily reports of air traffic flows in Changi from the months of July 2018 to February 2019 (from CAAS Air Navigation Service Policy & Planning Division) broken down into hourly movements with daily weather reports from the Meteorological Service Singapore (MSS). An hourly breakdown of weather and traffic flows will also be used. The hourly weather record from July 2018 to February 2019 was obtained from (), a website that kept historical weather records. 
 
